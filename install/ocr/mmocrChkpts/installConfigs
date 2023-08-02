@@ -1,0 +1,29 @@
+#!/bin/bash
+
+mim download mmocr --config 'dbnet_r18_fpnc_1200e_icdar2015' --dest .
+mim download mmocr --config 'dbnet_r50dcnv2_fpnc_1200e_icdar2015' --dest .
+mim download mmocr --config 'mask_rcnn_r50_fpn_160e_ctw1500' --dest .
+mim download mmocr --config 'mask_rcnn_r50_fpn_160e_icdar2015' --dest .
+mim download mmocr --config 'mask_rcnn_r50_fpn_160e_icdar2017' --dest .
+mim download mmocr --config 'drrg_r50_fpn_unet_1200e_ctw1500' --dest .
+mim download mmocr --config 'fcenet_r50dcnv2_fpn_1500e_ctw1500' --dest .
+mim download mmocr --config 'fcenet_r50_fpn_1500e_icdar2015' --dest .
+mim download mmocr --config 'panet_r18_fpem_ffm_600e_ctw1500' --dest .
+mim download mmocr --config 'panet_r18_fpem_ffm_600e_icdar2015' --dest .
+mim download mmocr --config 'psenet_r50_fpnf_600e_ctw1500' --dest .
+mim download mmocr --config 'psenet_r50_fpnf_600e_icdar2015' --dest .
+mim download mmocr --config 'textsnake_r50_fpn_unet_1200e_ctw1500' --dest .
+mim download mmocr --config 'abinet_vision_only_academic' --dest .
+mim download mmocr --config 'abinet_academic' --dest .
+mim download mmocr --config 'crnn_academic_dataset' --dest .
+mim download mmocr --config 'nrtr_r31_1by16_1by8_academic' --dest .
+mim download mmocr --config 'nrtr_r31_1by8_1by4_academic' --dest .
+mim download mmocr --config 'robustscanner_r31_academic' --dest .
+mim download mmocr --config 'sar_r31_parallel_decoder_academic' --dest .
+mim download mmocr --config 'sar_r31_sequential_decoder_academic' --dest .
+mim download mmocr --config 'seg_r31_1by16_fpnocr_academic' --dest .
+mim download mmocr --config 'crnn_tps_academic_dataset' --dest .
+mim download mmocr --config 'satrn_academic' --dest .
+mim download mmocr --config 'satrn_small' --dest .
+mim download mmocr --config 'sdmgr_unet16_60e_wildreceipt' --dest .
+mim download mmocr --config 'sdmgr_novisual_60e_wildreceipt' --dest .
