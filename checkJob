@@ -1,0 +1,9 @@
+#!/bin/bash
+
+fileIn=$1
+
+if test -f "$fileIn"; then
+    echo "1"
+else
+    echo "0"
+fi
