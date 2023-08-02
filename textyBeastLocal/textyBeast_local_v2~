@@ -1,0 +1,256 @@
+#!/bin/bash
+
+# Local bash function for calling data_scraping pipeline v1
+
+# HEADER STUFF
+# ====================================================
+echo ""
+echo "Starting at $(date)"
+echo ""
+echo "#########################################################################"
+echo "#########################################################################"
+echo "##                                                                     ##"
+echo "##        ::::::::::::::::::::::::    :::::::::::::::::   :::          ##" 
+echo "##           :+:    :+:       :+:    :+:    :+:    :+:   :+:           ##"  
+echo "##          +:+    +:+        +:+  +:+     +:+     +:+ +:+             ##"    
+echo "##         +#+    +#++:++#    +#++:+      +#+      +#++:               ##"      
+echo "##        +#+    +#+        +#+  +#+     +#+       +#+                 ##"        
+echo "##       #+#    #+#       #+#    #+#    #+#       #+#                  ##"         
+echo "##      ###    #############    ###    ###       ###                   ##"          
+echo "##            ::::::::: ::::::::::    :::     :::::::::::::::::::      ##" 
+echo "##           :+:    :+::+:         :+: :+:  :+:    :+:   :+:           ##"      
+echo "##          +:+    +:++:+        +:+   +:+ +:+          +:+            ##"       
+echo "##         +#++:++#+ +#++:++#  +#++:++#++:+#++:++#++   +#+             ##"        
+echo "##        +#+    +#++#+       +#+     +#+       +#+   +#+              ##"        
+echo "##       #+#    #+##+#       #+#     #+##+#    #+#   #+#               ##"         
+echo "##      ######### #############     ### ########    ###                ##"    
+echo "##                                                                     ##"
+echo "##                                                                     ##"
+echo "#########################################################################"
+echo "#########################################################################"
+echo ""
+# ====================================================
+
+# PARAMETERS
+# ====================================================
+#remoteDir="/scratch/g/tark/installTesting/dataScraping"
+#inDirClst=$remoteDir"/input"
+startDir=$(pwd)
+
+#finSignal="$(jot -r 1 10000000 99999999)" #generate random number to for "finished" signal directory..
+# Get local machine's global IP
+
+
+# Detect MCW network external IP
+# (NOTE: you will need to be either within MCW's network or VPN'd in to access the cluster)
+#====================================
+ipConfOut=$(ifconfig) # get the entirety of the ifconfig output
+
+#Save the ifconfig output to a temporary file and then save the filename as a variable..
+echo "$ipConfOut">ipConfOut_tmp.txt
+filename=ipConfOut_tmp.txt
+
+# create regular expression key that will match an MCW ip if present in ipConfOut..
+# (basically any ip that starts with 141.106 ..)
+key="141.106.[0-9][0-9][0-9].[0-999]"
+
+# grep the temporary file for the key above.. save all matches
+grpMatches=$(grep -o "$key" "$filename")
+
+# get the first match (characters 0-15)
+echo "Detecting MCW network IP ..."
+echo "Assigning match below to variable 'ipLocal' ...:"
+echo $grpMatches | cut -d' ' -f1
+echo ""
+ipLocal=$(echo $grpMatches | cut -d' ' -f1)
+#ipLocal=141.106.156.182
+rm $filename
+# ====================================================
+
+
+# PROCESS INPUT ARGUMENTS
+# ====================================================
+# number of expected input arguments (must update if more are added in development):
+nxArg=2
+
+# Check that expected number of input args were provided.
+# If so, echo the inputs onto the command line such that they are present in the
+# log output:
+
+if [ "$#" -lt "$nxArg" ];
+then
+  echo "$0: Missing arguments"
+  exit 1
+elif [ "$#" -gt "$nxArg" ];
+then
+  echo "$0: Too many arguments: $@"
+  exit 1
+else
+  echo "Input Arguments:"
+  echo "#########################################################################"
+  echo "Number of arguments.: $#"
+  echo "List of arguments...: $@"
+  echo "Arg #1..............: $1 (Local Input Directory)"
+  inDirLocal=$1
+  #videoFile=$1
+  echo "Arg #2..............: $2 (Local Output Directory)"
+  dirLocal=$2
+  #echo "Arg #3..............: $3"
+  echo "#########################################################################"
+  echo ""
+fi
+
+echo ""
+echo "Fetching Remote Cluster Established During Initial Setup.."
+echo "#########################################################################"
+# Get cluster location info for cluster
+# (from .bashrc/.bash_profile ...)
+# (clstrPath and defined when running setup.sh ...)
+remoteDir=$clstrPath
+#remoteDir="/scratch/g/tark/installTesting/dataScraping"
+inDirClst=$remoteDir"/input"
+echo ""
+echo "Remote Cluster Hostname:"
+echo $clstrHost
+echo ""
+echo "Remote Cluster Install Location:"
+echo $remoteDir
+echo ""
+echo "#########################################################################"
+echo ""
+echo ""
+# Interactive Input Arguments:
+# ------------------------------
+# Ask the user for login details
+echo "Cluster Login Info:"
+echo "#########################################################################"
+
+echo "Please enter your username on the cluster below:"
+read -p 'Username: ' uservar
+echo ""
+echo "NOTE: If you have not done so already, you will need to set up a public/private"
+echo "SSH key on your local machine.. this allows for automation of sending commands"
+echo "to the cluster via SSH. Without setting this up, you will need to enter"
+echo "login credentials every single time a command is issued to the cluster"
+echo "which will make running this script very cumbersome..."
+echo ""
+echo "If you say yes below and run the setup procedure, you will be asked"
+echo "to enter the password you establish to protect the ssh keys at the beginning"
+echo "of each bash session. This will then allow you to submit ssh calls to the the"
+echo "cluster or any other location with ssh keys in your .ssh/id_rsa file without"
+echo "requiring a password.."
+echo ""
+echo "Would you like to set that up now?"
+read -p '(enter either y or n, then hit ENTER) ' sshkeySetup
+
+STR=$sshkeySetup
+SUB='y'
+SUB2='n'
+SUB3='yn'
+
+if [[ "$STR" == "$SUB" ]]; then
+    echo "OK.. setting up SSH keys.."
+    echo ""
+    echo "Please follow the instructions to complete SSH key setup:"
+    echo "---------------------------------------------------------"
+ 
+    #ssh-keygen -t rsa -b 2048
+    ssh-keygen -p -f ~/.ssh/id_rsa
+    eval "$(ssh-agent -s)"
+    # add to your shell profile file
+    echo 'eval "$(ssh-agent -s)"' >> $rcFile
+    echo 'ssh-add ~/.ssh/id_rsa' >> $rcFile
+    source $rcFile
+    echo "---------------------------------------------------------"
+    echo ""
+    echo "Copying your keys to the Cluster..."
+
+elif [[ "$STR" == "$SUB2" ]]; then
+    echo "OK, proceeding without SSH key setup.."
+else
+    echo "input not recognized.. try again"
+    read -p '(enter either y or n, then hit ENTER) ' sshkeySetup
+    while [[ "$SUB3" != *"$sshkeySetup"* ]]
+    do
+	   echo "input not recognized.. try again"
+	   read -p '(enter either y or n, then hit ENTER) ' sshkeySetup
+    done
+
+    STR=$sshkeySetup
+    if [[ "$STR" == "$SUB" ]]; then
+	 echo "OK.. setting up SSH keys.."
+	 echo ""
+	 echo "Please follow the instructions to complete SSH key setup:"
+	 echo "---------------------------------------------------------"
+	 
+	 #ssh-keygen -t rsa -b 2048
+	 ssh-keygen -p -f ~/.ssh/id_rsa
+	 eval "$(ssh-agent -s)"
+	 # add to your shell profile file
+	 echo 'eval "$(ssh-agent -s)"' >> $rcFile
+	 echo 'ssh-add ~/.ssh/id_rsa' >> $rcFile
+	 source $rcFile
+	 echo "---------------------------------------------------------"
+	 
+	 echo ""
+	 echo "Copying your keys to the Cluster..."
+
+    elif [[ "$STR" == "$SUB2" ]]; then
+	echo "OK, proceeding without SSH key setup.."
+    fi
+fi
+
+echo ""
+echo ""
+echo "Thank you, $uservar, we now have your login details..."
+echo "We will use the login info provided to submit your job to cluster.."
+echo "#########################################################################"
+echo ""
+echo ""
+
+# First, clean filenames of any characters which might break code ..
+chmod +wrx clnFileNames # make sure clnFileNames is executable .. 
+./clnFileNames $inDirLocal #run it..
+
+#use scp to push the data to the cluster..
+echo "Pushing data in selected folder to the cluster .."
+scp -r $inDirLocal/* $uservar@$clstrHost:$inDirClst/
+echo "Data upload complete .."
+echo ""
+
+# Go to the local input directory and loop through all files inside.. 
+cd $inDirLocal
+
+cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
+
+echo "Submitting Each Video as a Separate Cluster Job:"
+echo "------------------------------------------------"
+
+for FILE in *
+
+do videoFile="$inDirClst/$FILE" #assign file to videoFile variable and add appropriate path for cluster location..
+
+finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for "finished" signal..
+
+# Run Data Scraping Pipeline Command Via SSH
+txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir./textyBeast_v1.slurm $videoFile $finSignal $remoteDir"
+ssh $uservar@$clstrHost $txtyBeastCmd
+
+# add onto data pull command list string..
+cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out;"
+done
+
+echo "------------------------------------------------"
+
+# Tell getData_v1 to start monitoring for the finished signals..
+echo ""
+echo "Beginning to monitor for the signals that each job has finished .."
+echo "Once signal is recieved, will begin downloading data to local directory .."
+echo ""
+
+# run through the getData_v1 commands saved in
+# cmd1 to monitor for the completion of the jobs ..
+eval $cmd1
+
+#go back to starting directory
+cd $startDir
