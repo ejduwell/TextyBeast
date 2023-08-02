@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# for issueing calls to the whisper environment from other virtual environments..
+
+# FOR LOCAL USE...
+
+#SET UP WHISPER VIRTUAL PYTHON ENVIRONMENT
+# ====================================================
+BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+WhspEnvDir="$BASEDIR/envs/whspr"
+
+echo ""
+echo "Activating Whisper Environment"
+echo ""
+source $WhspEnvDir/env/bin/activate
+
+
+# PROCESS INPUT ARGUMENTS
+# ====================================================
+model=$1
+dirOut=$2
+lang=$3
+InDir=$4
+finSignal=$5
+
+# Audio Files will be everything from input 6-->Last input..
+# shift to get rid of first 5 arguments
+shift 5
+# put the remaining arguments in an array
+file_list=("$@")
+
+# RUN WHISPER
+# ====================================================
+# Loop over the files and run whisper command on each
+for file in "${file_list[@]}"
+do
+  echo "Processing file: $file"
+  echo "whisper $file --model $model --output_dir $dirOut --language $lang"
+  whisper $file --model $model --output_dir $dirOut --language $lang
+  
+  # Replace this command with the one you want to run on each file
+  #echo "whisper_bash $file $model $dirOut $lang $InDir"
+  #whisper_bash $file $model $dirOut $lang $InDir
+done
+
+#DEACTIVATE WHISPER VIRTUAL PYTHON ENVIRONMENT
+# ====================================================
+echo ""
+echo "Deactivating Whisper Environment"
+echo ""
+deactivate
+
+#CREATE THE FINISHED SIGNAL
+# ====================================================
+echo ""
+echo "Generating 'Finished' Signal:"
+echo $finSignal
+echo ""
+echo "in this directory:"
+echo $(pwd)
+echo ""
+sig="done"
+echo $sig > $finSignal

@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# for issueing calls to the whisper environment from other virtual environments..
+
+# LOAD RCC CLUSTER MODULES
+# ====================================================
+module load python/3.9.1
+module load ffmpeg
+module load cuda/11.7.0
+module list
+
+# PROCESS INPUT ARGUMENTS
+# ====================================================
+# number of expected input arguments (must update if more are added in development):
+nxArg=6
+
+# Check that expected number of input args were provided.
+# If so, echo the inputs onto the command line such that they are present in the
+# log output:
+
+if [ "$#" -lt "$nxArg" ];
+then
+  echo "$0: Missing arguments"
+  exit 1
+elif [ "$#" -gt "$nxArg" ];
+then
+  echo "$0: Too many arguments: $@"
+  exit 1
+else
+  echo "Input Arguments:"
+  echo "#########################################################################"
+  echo "Number of arguments.: $#"
+  #echo "List of arguments...: $@"
+  #echo "Arg #1..............: $1 (list of audio files)"
+  
+  # Get the list of filenames as a space-separated string
+  audioFiles="$1"
+  
+  model=$2
+  dirOut=$3
+  lang=$4
+  InDir=$5
+  finSignal=$6
+  echo "#########################################################################"
+fi
+# ====================================================
+
+# Convert the audio file list string into an array
+readarray -t file_list <<< "$audioFiles"
+
+# List of files to process
+#file_list=($audioFiles)
+#file_list=(file1.txt file2.txt file3.txt)
+
+# Loop over the files and run a command on each
+for file in "${file_list[@]}"
+do
+  echo "Processing file: $file"
+  # Replace this command with the one you want to run on each file
+  echo "whisper_bash $file $model $dirOut $lang $InDir"
+  whisper_bash $file $model $dirOut $lang $InDir
+done
+
+#CREATE THE FINISHED SIGNAL
+sig="done"
+echo $sig > $finSignal
