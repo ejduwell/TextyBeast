@@ -1,0 +1,9 @@
+#!/bin/bash
+
+audio_file=$1
+model=$2
+dirOut=$3
+lang=$4
+
+
+whisper $audioFile --model $model --output_dir $dirOut --language $lang
