@@ -55,6 +55,6 @@ echo ""
 echo ""
 echo "Running installation on remote cluster..."
 echo ""
-installCmdLst="cd $clstrPath; git clone https://github.com/ejduwell/TextyBeast.git; chmod +wrx install.sh; ./install.sh"
+installCmdLst="cd $clstrPath; git clone https://github.com/ejduwell/TextyBeast.git; cd TextyBeast; chmod +wrx install.sh; ./install.sh"
 
 ssh $uservar@$clstrHost $installCmdLst
