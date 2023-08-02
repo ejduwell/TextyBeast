@@ -61,7 +61,7 @@ read clstrHost
 echo ""
 
 echo ""
-echo "Please enter the full path to your install folder on the SLURM cluster below:"
+echo "Please enter the full path to the parent folder on the SLURM cluster where you want to install TextyBeast below:"
 read clstrPath
 echo ""
 
