@@ -3,11 +3,11 @@
 Python repository for scraping both spoken and written text from video and audio using AI models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
-### Requirements/Dependencies
+## Requirements/Dependencies
 - must be running linux operating system or MacOs
 - must have python3.9-dev and python3.8-dev installed
 
-### Installation
+## Installation
 
 (LOCAL ONLY)
 ------------------------------------------------------------------
@@ -29,6 +29,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
     - Run:
       `./checkInstall.sh`
     - Follow instructions on command line
+------------------------------------------------------------------
 
 (REMOTE CLUSTER ONLY)
 ------------------------------------------------------------------
