@@ -98,4 +98,3 @@ echo "deactivating Pyannote/Whisper venv ..."
 echo ""
 deactivate
 # ====================================================
-#/scratch/g/tark/dataScraping/envs/pyannote/env/lib/python3.9/site-packages/wsprPyannoteTest1.py
