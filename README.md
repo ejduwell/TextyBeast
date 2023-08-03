@@ -53,26 +53,25 @@ Follow one of the three install instructions below based on which set up you pla
    git clone https://github.com/ejduwell/TextyBeast.git
    ```
 
-4. Enter newly created TextyBeast directory:
+3. Enter newly created TextyBeast directory:
 
    ```
    cd TextyBeast
    ```
 
-6. Make installation script executable:
+4. Make installation script executable:
 
    ```
    chmod +wrx install.sh
    ```
 
-8. Run the install.sh script:
+5. Run the install.sh script:
 
    ```
    ./install.sh
    ```
 
-10. Test your installation:
-   
+6. Test your installation:
     - Run:
       ```
       ./checkInstall.sh
