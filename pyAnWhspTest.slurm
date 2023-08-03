@@ -3,7 +3,6 @@
 # data scraping annotated interview script
 
 # SLURM JOB INFO PARAMETERS
-# SLURM JOB INFO PARAMETERS
 # ====================================================
 #SBATCH --job-name=dtaScrape
 #SBATCH --ntasks=1
