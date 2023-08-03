@@ -21,7 +21,7 @@
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=1
+nxArg=3
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -40,16 +40,40 @@ else
   echo "#########################################################################"
   echo "Number of arguments.: $#"
   #echo "List of arguments...: $@"
-  echo "Arg #1..............: $1 (pyannote env directory)"
-  PyanWhspEnvDir=$1
+  #echo "Arg #1..............: $1 (Video File)"
+  videoFile=$1
   
+  #echo "Arg #2..............: (local username)"
+  #unLocal=$2
+  #echo "Arg #3..............: (local pword)"
+  #pwLocal=$3
+  #echo "Arg #4..............: (local ip)"
+  #ipLocal=$4
+  #echo "Arg #5..............: (local outdir)"
+  #dirLocal=$5
+  
+  
+  finSignal=$2
+  homeDir=$3
   echo "#########################################################################"
 fi
 # ====================================================
 
 # PARAMETERS
 # ====================================================
-#PyanWhspEnvDir="/scratch/g/tark/installTesting/dataScraping/envs/pyannote"
+#-------------------------------------------------------------------------------
+# General Paramters:
+#-------------------------------------------------------------------------------
+outBase=$homeDir/output
+dateTime=$(date +%m-%d-%y-%H-%M-%S-%N) #get date and time of start
+#strip away both path and extension from input video file to get base name
+fBase=${videoFile%.*}
+fBase=${fBase##*/}
+outDir=($homeDir/output/$fBase-output-$dateTime) #make unique output directory name/path tagged with date and time
+outDirBase=($homeDir/output)
+outDirSub=$fBase-output-$dateTime
+PyanWhspEnvDir="$homeDir/envs/pyannote"
+videoFile=$homeDir/input/$videoFile
 # ====================================================
 
 # LOAD RCC CLUSTER MODULES
@@ -87,7 +111,7 @@ echo "======================================================="
 # Run Pyannote/Whisper script.. 
 #srun --nodes=1 --ntasks=1 python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
 #python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
-python ./lib/python3.8/site-packages/wsprPyannoteTest2.py
+python ./lib/python3.8/site-packages/wsprPyannoteTest2.py $videoFile $outDirBase $outDirSub
 
 echo "======================================================="
 echo "Pyannote/Whisper Pipeline Completed ..."
