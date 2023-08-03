@@ -19,19 +19,24 @@ Follow one of the three install instructions below based on which set up you pla
 
 1. Open a terminal window on your local machine and navigate to desired install location
 
-2. Run:
+2. Clone repository:
+
    `git clone https://github.com/ejduwell/TextyBeast.git`
 
-3. Run:
+3. Enter newly created TextyBeast directory:
+
    `cd TextyBeast`
 
-4. Run:
+4. Make installation script executable:
+
    `chmod +wrx install.sh`
 
-5. Run:
+5. Run the install.sh script:
+
    `./install.sh`
 
-6. Test installation
+6. Test your installation:
+   
     - Run:
       `./checkInstall.sh`
     - Follow instructions on command line
@@ -41,21 +46,27 @@ Follow one of the three install instructions below based on which set up you pla
 
 1. Open a terminal window on your local machine and navigate to desired install location
 
-2. Run:
-   `git clone https://github.com/ejduwell/TextyBeast.git`
+2.  Clone repository:
+   
+      `git clone https://github.com/ejduwell/TextyBeast.git`
 
-4. Run:
+3. Enter TextyBeast/textyBeastLocal directory:
+   
    `cd TextyBeast/textyBeastLocal`
 
-6. Run:
+4. Make scripts executable:
+
    `chmod +wrx *`
 
-8. Run:
+5. Run setup.sh script:
+   
    `./setup.sh`
+   - This procedure sets up info, variables, and ssh keys for submitting remote jobs
    - Follow instructions/provide requested info
    - after completing, run source ~/.bashrc (as suggested in script output)
 
-6. Run:
+6. Install TextyBeast on remote system:
+   
    `./remoteClstrInstall.sh`
 
 
@@ -64,39 +75,48 @@ Follow one of the three install instructions below based on which set up you pla
 -------------------------- Local Setup ---------------------------
 1. Open a terminal window on your local machine and navigate to desired install location
 
-2. Run:
+2. Clone repository:
+
    `git clone https://github.com/ejduwell/TextyBeast.git`
 
-3. Run:
+3. Enter newly created TextyBeast directory:
+
    `cd TextyBeast`
 
-4. Run:
+4. Make installation script executable:
+
    `chmod +wrx install.sh`
 
-5. Run:
+5. Run the install.sh script:
+
    `./install.sh`
 
-6. Test installation
+6. Test your installation:
+   
     - Run:
       `./checkInstall.sh`
     - Follow instructions on command line
 
 --------------------- Remote Cluster Setup ----------------------
 
-7. cd into TextyBeast/textyBeastLocal (on local machine)
+7. Enter TextyBeast/textyBeastLocal directory:
+   
+   `cd TextyBeast/textyBeastLocal`
 
-8. Run:
+8. Make scripts executable:
+
    `chmod +wrx *`
 
-9. Run:
+9. Run setup.sh script:
+   
    `./setup.sh`
+   - This procedure sets up info, variables, and ssh keys for submitting remote jobs
    - Follow instructions/provide requested info
    - after completing, run source ~/.bashrc (as suggested in script output)
 
-10. Run:
+10. Install TextyBeast on remote system:
+   
    `./remoteClstrInstall.sh`
-   - this script installs TextyBeast on the remote cluster via ssh using the credentials/info provided in previous step (setup.sh)
-
 ### Usage:
 insert instructions for usage here...
 
