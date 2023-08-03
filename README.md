@@ -5,8 +5,12 @@ Python repository for scraping both spoken and written text from video and audio
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
 ## Requirements/Dependencies
-- must be running a Linux operating system or MacOS
-- must have python3.9-dev and python3.8-dev installed
+- Must be running a Linux operating system or MacOS
+- Must have an NVIDIA gpu
+- Will function best on a Linux machine equipped with newer NVIDIA cards.
+- Will need 6-8 GB of GPU ram (preferably more)
+- Must have python3.9-dev and python3.8-dev installed
+- If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards...
 
 ## Installation
 Follow one of the three install instructions below based on which set up you plan to run.
