@@ -180,7 +180,7 @@ Follow one of the three install instructions below based on which set up you pla
     ./remoteClstrInstall.sh
     ```
     
-### Usage:
+## Usage:
 insert instructions for usage here...
 
 ## Notes
