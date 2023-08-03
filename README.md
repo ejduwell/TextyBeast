@@ -4,7 +4,7 @@ Python repository for scraping both spoken and written text from video and audio
 
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
-## Requirements/Dependencies
+## Requirements/Dependencies:
 - Must be running a Linux operating system or MacOS
 - Must have an NVIDIA gpu
 - Will function best on a Linux machine equipped with newer NVIDIA cards.
@@ -12,7 +12,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 - Must have python3.9-dev and python3.8-dev installed
 - If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards. Without dedicated NVIDIA gpus, TextyBeast may run/work but will likely default to much slower cpu-only models.
 
-## Installation
+## Installation:
 Follow one of the three install instructions below based on which set up you plan to run.
 
 ### For running jobs on local machine only:
@@ -61,7 +61,6 @@ Follow one of the three install instructions below based on which set up you pla
 
 ### To be able to run jobs locally and on remote SLURM cluster:
 
-
 -------------------------- Local Setup ---------------------------
 1. Open a terminal window on your local machine and navigate to desired install location
 
@@ -98,7 +97,7 @@ Follow one of the three install instructions below based on which set up you pla
    `./remoteClstrInstall.sh`
    - this script installs TextyBeast on the remote cluster via ssh using the credentials/info provided in previous step (setup.sh)
 
-### Usage
+### Usage:
 insert instructions for usage here...
 
 ## Notes
