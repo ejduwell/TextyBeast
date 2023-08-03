@@ -52,7 +52,6 @@ else
   #echo "Arg #5..............: (local outdir)"
   #dirLocal=$5
   
-  
   finSignal=$2
   homeDir=$3
   echo "#########################################################################"
@@ -74,6 +73,23 @@ outDirBase=($homeDir/output)
 outDirSub=$fBase-output-$dateTime
 PyanWhspEnvDir="$homeDir/envs/pyannote"
 videoFile=$homeDir/input/$videoFile
+video="$(basename $videoFile)"
+# ====================================================
+
+# SET UP PATH/DIRECTORIES
+# ====================================================
+# Save start directory...
+strtDir=$(pwd)
+
+# Make output directory for this job
+mkdir $outDir
+echo "Created output directory for this job at:" 
+echo "$outDir"
+echo ""
+
+# Copy video file into output directory
+cp $videoFile $outDir/$video
+videoFile=$outDir/$video
 # ====================================================
 
 # LOAD RCC CLUSTER MODULES
@@ -122,3 +138,30 @@ echo "deactivating Pyannote/Whisper venv ..."
 echo ""
 deactivate
 # ====================================================
+
+# Go back to start dir..
+cd $strtDir
+# Close Up...
+echo "Ending at $(date)"
+
+# PACK/CLEAN UP OUTPUT DIRS
+# ====================================================
+# first compress the output dir ..
+cd $outBase
+tar -czvf $fBase-output-$dateTime.tar.gz $fBase-output-$dateTime
+#tar -czvf $outDir.tar.gz $outDir
+
+mkdir $outBase/$finSignal
+#mv  $outDir.tar.gz $outBase/$finSignal/output-$dateTime.tar.gz #move final zipped data into "end-signal" directory..
+mv $outBase/$fBase-output-$dateTime.tar.gz $outBase/$finSignal/output-$dateTime.tar.gz #move final zipped data into "end-signal" directory..
+
+logfile=$(basename "$videoFile").out
+cp /scratch/g/tark/installTesting/dataScraping/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
+rm -rf $outDir #get rid of original/unzipped data dir..
+
+#Enter final output dir and give the signal that we're all done...
+cd $outBase/$finSignal/ #enter final output dir..
+sig="done"
+echo $sig > DONE
+# Go back to start dir..
+cd $strtDir
