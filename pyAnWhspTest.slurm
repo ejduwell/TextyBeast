@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# data scraping whisper and mmocr combined pipeline.. v2
+# data scraping annotated interview script
 
 # SLURM JOB INFO PARAMETERS
 # ====================================================
