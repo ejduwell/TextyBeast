@@ -28,7 +28,7 @@
 
 # Overview:
 
-TextyBeast is a Python and Bash repository for scraping both spoken and written text from video image frames and audio using AI detection, recognition and transcription models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
+TextyBeast is a Python and Bash repository for scraping both spoken and written text from video image frames and audio using AI detection, recognition, and transcription models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
 
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
