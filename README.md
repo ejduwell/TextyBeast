@@ -1,4 +1,4 @@
-# TextyBeast
+<p><center>
 
 ```
 #########################################################################
@@ -21,10 +21,14 @@
 ##                                                                     ##
 ##                                                                     ##
 #########################################################################
+########################### --- README --- ##############################
 #########################################################################
 ```
+</center></p>
 
-Python and Bash repository for scraping both spoken and written text from video and audio using AI models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
+# Overview:
+
+TextyBeast is a Python and Bash repository for scraping both spoken and written text from video and audio using AI models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
 
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
