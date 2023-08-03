@@ -107,7 +107,7 @@ echo "#########################################################################"
 # Get cluster location info for cluster
 # (from .bashrc/.bash_profile ...)
 # (clstrPath and defined when running setup.sh ...)
-remoteDir=$clstrPath
+remoteDir=$clstrPath/TextyBeast
 #remoteDir="/scratch/g/tark/installTesting/dataScraping"
 inDirClst=$remoteDir"/input"
 echo ""
