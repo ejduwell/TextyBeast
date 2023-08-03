@@ -13,15 +13,43 @@
 ##SBATCH --qos=dev
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
-#SBATCH --output=/scratch/g/tark/installTesting/dataScraping/output/%x-%j.out
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=eduwell@mcw.edu
+##SBATCH --output=/scratch/g/tark/installTesting/dataScraping/output/%x-%j.out
+##SBATCH --mail-type=ALL
+##SBATCH --mail-user=eduwell@mcw.edu
 
 
+# PROCESS INPUT ARGUMENTS
+# ====================================================
+# number of expected input arguments (must update if more are added in development):
+nxArg=1
+
+# Check that expected number of input args were provided.
+# If so, echo the inputs onto the command line such that they are present in the
+# log output:
+
+if [ "$#" -lt "$nxArg" ];
+then
+  echo "$0: Missing arguments"
+  exit 1
+elif [ "$#" -gt "$nxArg" ];
+then
+  echo "$0: Too many arguments: $@"
+  exit 1
+else
+  echo "Input Arguments:"
+  echo "#########################################################################"
+  echo "Number of arguments.: $#"
+  #echo "List of arguments...: $@"
+  echo "Arg #1..............: $1 (pyannote env directory)"
+  PyanWhspEnvDir=$1
+  
+  echo "#########################################################################"
+fi
+# ====================================================
 
 # PARAMETERS
 # ====================================================
-PyanWhspEnvDir="/scratch/g/tark/installTesting/dataScraping/envs/pyannote"
+#PyanWhspEnvDir="/scratch/g/tark/installTesting/dataScraping/envs/pyannote"
 # ====================================================
 
 # LOAD RCC CLUSTER MODULES
