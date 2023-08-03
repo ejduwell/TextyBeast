@@ -89,19 +89,19 @@ Follow one of the three install instructions below based on which set up you pla
       git clone https://github.com/ejduwell/TextyBeast.git
       ```
 
-4. Enter TextyBeast/textyBeastLocal directory:
+3. Enter TextyBeast/textyBeastLocal directory:
    
    ```
    cd TextyBeast/textyBeastLocal
    ```
 
-6. Make scripts executable:
+4. Make scripts executable:
 
    ```
    chmod +wrx *
    ```
 
-8. Run setup.sh script:
+5. Run setup.sh script:
    
    ```
    ./setup.sh
@@ -110,9 +110,10 @@ Follow one of the three install instructions below based on which set up you pla
    - Follow instructions/provide requested info
    - after completing, run source ~/.bashrc (as suggested in script output)
 
-10. Install TextyBeast on remote system:
-   
-   `./remoteClstrInstall.sh`
+6. Install TextyBeast on remote system:
+   ```
+   ./remoteClstrInstall.sh
+   ```
 
 
 ### To be able to run jobs locally and on remote SLURM cluster:
