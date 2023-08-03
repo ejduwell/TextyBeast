@@ -71,7 +71,7 @@ rm $filename
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=2
+nxArg=3
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -95,7 +95,8 @@ else
   #videoFile=$1
   echo "Arg #2..............: $2 (Local Output Directory)"
   dirLocal=$2
-  #echo "Arg #3..............: $3"
+  echo "Arg #3..............: $3 (Job Type)"
+  jobType=$3
   echo "#########################################################################"
   echo ""
 fi
@@ -158,8 +159,16 @@ do videoFile="$inDirClst/$FILE" #assign file to videoFile variable and add appro
 finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for "finished" signal..
 
 # Run Data Scraping Pipeline Command Via SSH
+if [[ $jobType == "vl" ]]; then
 txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/textyBeast_v1.slurm $videoFile $finSignal $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
+fi
+
+if [[ $jobType == "di" ]]; then
+txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/pyAnWhspTest.slurm $videoFile $finSignal $remoteDir"
+ssh $uservar@$clstrHost $txtyBeastCmd
+fi
+
 
 # add onto data pull command list string..
 cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out;"
