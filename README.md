@@ -115,8 +115,8 @@ Follow one of the three install instructions below based on which set up you pla
    - after completing, run source ~/.bashrc (as suggested in script output)
 
 10. Install TextyBeast on remote system:
-   
-   `./remoteClstrInstall.sh`
+    
+    `./remoteClstrInstall.sh`
 ### Usage:
 insert instructions for usage here...
 
