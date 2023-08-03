@@ -1,17 +1,19 @@
 # TextyBeast
 
 Python repository for scraping both spoken and written text from video and audio using AI models and functions from MMOCR, OpenAI's Whisper, and Pyannote.
+
 This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
 
 ## Requirements/Dependencies
-- must be running linux operating system or MacOs
+- must be running a Linux operating system or MacOS
 - must have python3.9-dev and python3.8-dev installed
 
 ## Installation
+Follow one of the three install instructions below based on which set up you plan to run.
 
-(LOCAL ONLY)
-------------------------------------------------------------------
-1. Open terminal window and navigate to desired install location
+### For running jobs on local machine only:
+
+1. Open a terminal window on your local machine and navigate to desired install location
 
 2. Run:
    `git clone https://github.com/ejduwell/TextyBeast.git`
@@ -29,11 +31,11 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
     - Run:
       `./checkInstall.sh`
     - Follow instructions on command line
-------------------------------------------------------------------
 
-(REMOTE CLUSTER ONLY)
-------------------------------------------------------------------
-1. Open terminal window and navigate to desired install location
+
+### For running jobs on remote SLURM cluster only:
+
+1. Open a terminal window on your local machine and navigate to desired install location
 
 2. Run:
    `git clone https://github.com/ejduwell/TextyBeast.git`
@@ -51,12 +53,13 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 
 6. Run:
    `./remoteClstrInstall.sh`
-------------------------------------------------------------------
 
-(LOCAL & REMOTE CLUSTER)
-------------------------------------------------------------------
-# ------ Local Setup ------ 
-1. Open terminal window and navigate to desired install location
+
+### To be able to run jobs locally and on remote SLURM cluster:
+
+
+-------------------------- Local Setup ---------------------------
+1. Open a terminal window on your local machine and navigate to desired install location
 
 2. Run:
    `git clone https://github.com/ejduwell/TextyBeast.git`
@@ -75,8 +78,9 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
       `./checkInstall.sh`
     - Follow instructions on command line
 
-# ------ Remote Cluster Setup ------
-7. cd into TextyBeast/textyBeastLocal
+--------------------- Remote Cluster Setup ----------------------
+
+7. cd into TextyBeast/textyBeastLocal (on local machine)
 
 8. Run:
    `chmod +wrx *`
@@ -88,7 +92,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 
 10. Run:
    `./remoteClstrInstall.sh`
-------------------------------------------------------------------
+   - this script installs TextyBeast on the remote cluster via ssh using the credentials/info provided in previous step (setup.sh)
 
 ### Usage
 insert instructions for usage here...
