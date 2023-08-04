@@ -101,7 +101,7 @@ x_merge=65
 ClustThr_factor=3
 det_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/panet_r18_fpem_ffm_sbn_600e_icdar2015_20210219-42dbe46a.pth'
 recog_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academic-dba3a4a3.pth'
-mmocrOut_dir=$homeDir/out_dir/video_img_dta
+mmocrOut_dir=$outDir/out_dir/video_img_dta
 configsDir=$homeDir/"envs/ocr/env/lib/python3.8/site-packages/mmocr/configs"
 #-------------------------------------------------------------------------------
 # Whisper Specific Parameters:
