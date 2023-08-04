@@ -113,6 +113,8 @@ fi
 remoteDir=$BASEDIR
 inDirClst=$remoteDir"/input"
 
+outDirBase=($BASEDIR/output)
+outDirSub=$fBase-output-$dateTime
 
 # Interactive Input Arguments:
 # ------------------------------
@@ -136,7 +138,7 @@ echo ""
 # Go to the local input directory and loop through all files inside.. 
 cd $inDirLocal
 
-cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
+#cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
 
 echo "Submitting Each Video as a Separate Local Job:"
 echo "------------------------------------------------"
@@ -157,8 +159,12 @@ cd $BASEDIR
 fi
 
 if [[ $jobType == "di" ]]; then
-txtyBeastCmd="bash $remoteDir/pyAnWhspLoc_v1.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
-eval $txtyBeastCmd
+cd $BASEDIR
+echo ""
+echo "Please Enter Your Huggingface Token for Pyannote:"
+read tokenIn
+echo ""
+./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn > $remoteDir/output/$FILE.out
 fi
 
 
