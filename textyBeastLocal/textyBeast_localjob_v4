@@ -155,7 +155,7 @@ if [[ $jobType == "vl" ]]; then
 echo ""
 echo "Running Video Lecture Job..."
 cd $BASEDIR
-./textyBeast_v1_local.sh $videoFile $finSignal > $remoteDir/output/$FILE.out
+./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal > $remoteDir/output/$FILE.out
 fi
 
 if [[ $jobType == "di" ]]; then
@@ -164,9 +164,12 @@ echo ""
 echo "Please Enter Your Huggingface Token for Pyannote:"
 read tokenIn
 echo ""
-./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn > $remoteDir/output/$FILE.out
+./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal > $remoteDir/output/$FILE.out
 fi
 
+# Remove copy of $FILE.out from output dir.. (should have been saved along with output if final dir..)
+cd $remoteDir/output/
+rm $FILE.out
 
 # add onto data pull command list string..
 #cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out;"
