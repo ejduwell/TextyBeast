@@ -31,4 +31,6 @@ Cmd1=$Cmd1_1'"'$txtyBstLocalPath":$""PATH"'"'
 echo $Cmd1 >> $rcFile
 echo $Cmd1
 
-
+echo ""
+echo "Run: source $rcFile to update path in this terminal session..."
+echo ""
