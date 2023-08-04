@@ -1,0 +1,184 @@
+#!/bin/bash
+
+# Local bash function for calling data_scraping pipeline v1
+
+# HEADER STUFF
+# ====================================================
+echo ""
+echo "Starting at $(date)"
+echo ""
+echo "#########################################################################"
+echo "#########################################################################"
+echo "##                                                                     ##"
+echo "##        ::::::::::::::::::::::::    :::::::::::::::::   :::          ##" 
+echo "##           :+:    :+:       :+:    :+:    :+:    :+:   :+:           ##"  
+echo "##          +:+    +:+        +:+  +:+     +:+     +:+ +:+             ##"    
+echo "##         +#+    +#++:++#    +#++:+      +#+      +#++:               ##"      
+echo "##        +#+    +#+        +#+  +#+     +#+       +#+                 ##"        
+echo "##       #+#    #+#       #+#    #+#    #+#       #+#                  ##"         
+echo "##      ###    #############    ###    ###       ###                   ##"          
+echo "##            ::::::::: ::::::::::    :::     :::::::::::::::::::      ##" 
+echo "##           :+:    :+::+:         :+: :+:  :+:    :+:   :+:           ##"      
+echo "##          +:+    +:++:+        +:+   +:+ +:+          +:+            ##"       
+echo "##         +#++:++#+ +#++:++#  +#++:++#++:+#++:++#++   +#+             ##"        
+echo "##        +#+    +#++#+       +#+     +#+       +#+   +#+              ##"        
+echo "##       #+#    #+##+#       #+#     #+##+#    #+#   #+#               ##"         
+echo "##      ######### #############     ### ########    ###                ##"    
+echo "##                                                                     ##"
+echo "##                                                                     ##"
+echo "#########################################################################"
+echo "#########################################################################"
+echo ""
+# ====================================================
+
+# PARAMETERS
+# ====================================================
+#remoteDir="/scratch/g/tark/installTesting/dataScraping"
+#inDirClst=$remoteDir"/input"
+startDir=$(pwd)
+
+# get the full path to the main package directory for this package on this machine
+cd ..
+BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+echo ""
+echo "Base Install Directory Is:"
+echo "$BASEDIR"
+cd $startDir
+
+#finSignal="$(jot -r 1 10000000 99999999)" #generate random number to for "finished" signal directory..
+# Get local machine's global IP
+
+# Detect MCW network external IP
+# (NOTE: you will need to be either within MCW's network or VPN'd in to access the cluster)
+#====================================
+ipConfOut=$(ifconfig) # get the entirety of the ifconfig output
+
+#Save the ifconfig output to a temporary file and then save the filename as a variable..
+echo "$ipConfOut">ipConfOut_tmp.txt
+filename=ipConfOut_tmp.txt
+
+# create regular expression key that will match an MCW ip if present in ipConfOut..
+# (basically any ip that starts with 141.106 ..)
+key="141.106.[0-9][0-9][0-9].[0-999]"
+
+# grep the temporary file for the key above.. save all matches
+grpMatches=$(grep -o "$key" "$filename")
+
+# get the first match (characters 0-15)
+echo "Detecting MCW network IP ..."
+echo "Assigning match below to variable 'ipLocal' ...:"
+echo $grpMatches | cut -d' ' -f1
+echo ""
+ipLocal=$(echo $grpMatches | cut -d' ' -f1)
+
+rm $filename
+# ====================================================
+
+
+# PROCESS INPUT ARGUMENTS
+# ====================================================
+# number of expected input arguments (must update if more are added in development):
+nxArg=3
+
+# Check that expected number of input args were provided.
+# If so, echo the inputs onto the command line such that they are present in the
+# log output:
+
+if [ "$#" -lt "$nxArg" ];
+then
+  echo "$0: Missing arguments"
+  exit 1
+elif [ "$#" -gt "$nxArg" ];
+then
+  echo "$0: Too many arguments: $@"
+  exit 1
+else
+  echo "Input Arguments:"
+  echo "#########################################################################"
+  echo "Number of arguments.: $#"
+  echo "List of arguments...: $@"
+  echo "Arg #1..............: $1 (Local Input Directory)"
+  inDirLocal=$1
+  #videoFile=$1
+  echo "Arg #2..............: $2 (Local Output Directory)"
+  dirLocal=$2
+  echo "Arg #3..............: $3 (Job Type)"
+  jobType=$3
+  echo "#########################################################################"
+  echo ""
+fi
+
+
+
+remoteDir=$BASEDIR
+inDirClst=$remoteDir"/input"
+
+outDirBase=($BASEDIR/output)
+outDirSub=$fBase-output-$dateTime
+
+# Interactive Input Arguments:
+# ------------------------------
+# Ask the user for login details
+#echo "Cluster Login Info:"
+#echo "#########################################################################"
+#echo "Please enter your username on the cluster below:"
+#read -p 'Username: ' uservar
+
+
+# First, clean filenames of any characters which might break code ..
+chmod +wrx clnFileNames # make sure clnFileNames is executable .. 
+./clnFileNames $inDirLocal #run it..
+
+#use scp to push the data to the cluster..
+echo "Pushing data to input folder.."
+cp $inDirLocal/* $inDirClst/
+echo "Data transfer complete .."
+echo ""
+
+# Go to the local input directory and loop through all files inside.. 
+cd $inDirLocal
+
+#cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
+
+echo "Submitting Each Video as a Separate Local Job:"
+echo "------------------------------------------------"
+
+for FILE in *
+
+do videoFile="$inDirClst/$FILE" #assign file to videoFile variable and add appropriate path for cluster location..
+
+finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for "finished" signal..
+
+# Run Data Scraping Pipeline Command Via SSH
+if [[ $jobType == "vl" ]]; then
+#txtyBeastCmd="bash $remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
+echo ""
+echo "Running Video Lecture Job..."
+cd $BASEDIR
+./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal > $remoteDir/output/$FILE.out
+fi
+
+if [[ $jobType == "di" ]]; then
+cd $BASEDIR
+echo ""
+echo "Please Enter Your Huggingface Token for Pyannote:"
+read tokenIn
+echo ""
+./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal > $remoteDir/output/$FILE.out
+fi
+
+# Remove copy of $FILE.out from output dir.. (should have been saved along with output if final dir..)
+cd $remoteDir/output/
+rm $FILE.out
+
+# add onto data pull command list string..
+#cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out;"
+done
+
+echo "------------------------------------------------"
+
+#go back to starting directory
+cd $startDir
+echo ""
+echo "Finished..."
+echo ""
