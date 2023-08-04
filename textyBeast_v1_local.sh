@@ -32,7 +32,7 @@ echo ""
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=2
+nxArg=3
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -63,8 +63,8 @@ else
   #echo "Arg #5..............: (local outdir)"
   #dirLocal=$5
   
-  
   finSignal=$2
+  outDirFinal=$3
   echo "#########################################################################"
 fi
 # ====================================================
@@ -281,9 +281,15 @@ logfile=$(basename "$videoFile").out
 cp $BASEDIR/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
 rm -rf $outDir #get rid of original/unzipped data dir..
 
-#Enter final output dir and give the signal that we're all done...
+#Enter final output dir and copy contents to final output directory...
 cd $outBase/$finSignal/ #enter final output dir..
-sig="done"
-echo $sig > DONE
-# Go back to start dir..
+mv * $outDirFinal
+
+# Clean up output directory
+cd $BASEDIR/output/
+rm -rf $finSignal #remove temporary dir in output now that its contents have been moved
+# Clean up input directory
+cd $BASEDIR/input
+rm $video # remove video from input
+
 cd $strtDir
