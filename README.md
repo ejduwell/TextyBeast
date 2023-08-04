@@ -70,8 +70,16 @@ Follow one of the three install instructions below based on which set up you pla
    ```
    ./install.sh
    ```
-
-6. Test your installation:
+6. Add local functions to permenant path:
+   - Run:
+   ```
+   cd TextyBeastLocal
+   chmod +wrx *
+   ./addFcns2Path.sh
+   ```
+   
+8. Test your installation:
+    - Return to main TextyBeast directory.
     - Run:
       ```
       ./checkInstall.sh
@@ -114,8 +122,11 @@ Follow one of the three install instructions below based on which set up you pla
    ```
    ./remoteClstrInstall.sh
    ```
-
-
+7. Add local functions to permenant path:
+   - Run:
+   ```
+   ./addFcns2Path.sh
+   ```
 ### To be able to run jobs locally and on remote SLURM cluster:
 
 -------------------------- Local Setup ---------------------------
@@ -179,7 +190,11 @@ Follow one of the three install instructions below based on which set up you pla
     ```
     ./remoteClstrInstall.sh
     ```
-    
+11. Add local functions to permenant path:
+   - Run:
+   ```
+   ./addFcns2Path.sh
+   ```    
 ## Usage:
 insert instructions for usage here...
 
