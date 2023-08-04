@@ -40,6 +40,9 @@ startDir=$(pwd)
 # get the full path to the main package directory for this package on this machine
 cd ..
 BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+echo ""
+echo "Base Install Directory Is:"
+echo "$BASEDIR"
 cd $startDir
 
 #finSignal="$(jot -r 1 10000000 99999999)" #generate random number to for "finished" signal directory..
@@ -126,7 +129,7 @@ chmod +wrx clnFileNames # make sure clnFileNames is executable ..
 
 #use scp to push the data to the cluster..
 echo "Pushing data to input folder.."
-cp -r $inDirLocal/* $inDirClst/
+cp $inDirLocal/* $inDirClst/
 echo "Data transfer complete .."
 echo ""
 
@@ -146,12 +149,15 @@ finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for 
 
 # Run Data Scraping Pipeline Command Via SSH
 if [[ $jobType == "vl" ]]; then
-txtyBeastCmd="$remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
-eval $txtyBeastCmd
+#txtyBeastCmd="bash $remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
+echo ""
+echo "Running Video Lecture Job..."
+cd $BASEDIR
+./textyBeast_v1_local.sh $videoFile $finSignal > $remoteDir/output/$FILE.out
 fi
 
 if [[ $jobType == "di" ]]; then
-txtyBeastCmd="$remoteDir/pyAnWhspLoc_v1.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
+txtyBeastCmd="bash $remoteDir/pyAnWhspLoc_v1.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
 eval $txtyBeastCmd
 fi
 
