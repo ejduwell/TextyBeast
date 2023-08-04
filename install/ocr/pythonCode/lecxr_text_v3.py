@@ -56,7 +56,7 @@ import torch
 
 #%% Parameters
 #config_dir = "/scratch/g/tark/dataScraping/envs/ocr/env/configs" #location of configs directory.. (may need to update if installing in new location..)
-config_dir = "/scratch/g/tark/installTesting/dataScraping/install/ocr/configs"
+#config_dir = "/scratch/g/tark/installTesting/dataScraping/install/ocr/configs"
 db_skip = 1; # for debugging purposes.. place if statement prior to code you want to skip checking for this to skip stuff..
 #%% Functions
 def jpg2txt_tsrc(jpg_file,outdir):
@@ -128,7 +128,7 @@ def jpg2txt_tsrc(jpg_file,outdir):
       
     # Close the file after writing all the text.
     f.close()
-def extract_all(vid_dir, video, frame_dsrate, cor_thr, detector, recognizer, x_merge, ClustThr_factor,det_ckpt_in,recog_ckpt_in):
+def extract_all(vid_dir, video, frame_dsrate, cor_thr, detector, recognizer, x_merge, ClustThr_factor,det_ckpt_in,recog_ckpt_in,config_dir):
     # Clear GPU cache..
     torch.cuda.empty_cache()
     audio_db = 0;
@@ -896,8 +896,10 @@ det_ckpt_in=sys.argv[9];
 #recog_ckpt_in='/scratch/g/tark/dataScraping/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academic-dba3a4a3.pth';
 recog_ckpt_in=sys.argv[10];
 
+config_dir=sys.argv[11];
+
 # Run the pipeline .. 
 torch.cuda.empty_cache()
-extract_all(vid_dir, video, frame_dsrate, cor_thr, detector, recognizer, x_merge, ClustThr_factor,det_ckpt_in,recog_ckpt_in)
+extract_all(vid_dir, video, frame_dsrate, cor_thr, detector, recognizer, x_merge, ClustThr_factor,det_ckpt_in,recog_ckpt_in,config_dir)
 torch.cuda.empty_cache()
 
