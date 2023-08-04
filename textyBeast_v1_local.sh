@@ -102,11 +102,12 @@ ClustThr_factor=3
 det_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/panet_r18_fpem_ffm_sbn_600e_icdar2015_20210219-42dbe46a.pth'
 recog_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academic-dba3a4a3.pth'
 mmocrOut_dir=$homeDir/out_dir/video_img_dta
+configsDir=$homeDir/"envs/ocr/env/lib/python3.8/site-packages/mmocr/configs"
 #-------------------------------------------------------------------------------
 # Whisper Specific Parameters:
 #-------------------------------------------------------------------------------
 WhspEnvDir=$homeDir/envs/whspr
-whspModel=large
+whspModel=base
 #strip away both path and extension from input video file to get base name
 audioBase=${videoFile%.*}
 audioBase=${audioBase##*/}
@@ -173,7 +174,7 @@ cd env
 echo "Beginning the MMOCR Pipeline to Detect Text in Image Frames:"
 echo "======================================================="
 # Run MMOCR pipeline script.. 
-python ./lib/python3.8/site-packages/lecxr_text_v3.py $vid_dir $video $frame_dsrate $cor_thr $detector $recognizer $x_merge $ClustThr_factor $det_ckpt_in $recog_ckpt_in
+python ./lib/python3.8/site-packages/lecxr_text_v3.py $vid_dir $video $frame_dsrate $cor_thr $detector $recognizer $x_merge $ClustThr_factor $det_ckpt_in $recog_ckpt_in $configsDir
 echo "======================================================="
 echo "MMOCR Pipeline Completed ..."
 echo ""
@@ -252,9 +253,12 @@ whsprFile=$whsprOut_dir/$audioBase.tsv
 mmocrTag="_ufTxt-Time"
 mmocrFile=$mmocrOut_dir/$audioBase$mmocrTag.csv
 
+
 # Go to the home directory and run the WhsprOcrCombine.py script..
 cd $homeDir
+source envs/ocr/env/bin/activate
 python ./WhsprOcrCombine.py $whsprFile $mmocrFile $outDir
+deactivate
 
 # Go back to start dir..
 cd $strtDir
@@ -274,7 +278,7 @@ mkdir $outBase/$finSignal
 mv $outBase/$fBase-output-$dateTime.tar.gz $outBase/$finSignal/output-$dateTime.tar.gz #move final zipped data into "end-signal" directory..
 
 logfile=$(basename "$videoFile").out
-cp /scratch/g/tark/installTesting/dataScraping/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
+cp $BASEDIR/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
 rm -rf $outDir #get rid of original/unzipped data dir..
 
 #Enter final output dir and give the signal that we're all done...
