@@ -9,5 +9,7 @@ import sys
 inFile = sys.argv[1];
 OutDir = sys.argv[2];
 OutDir_sub = sys.argv[3];
+tokenIn = sys.argv[4];
+installDir = sys.argv[5];
 
-wsprPyannoteTest1.run(inFile,OutDir,OutDir_sub)
+wsprPyannoteTest1.run(inFile,OutDir,OutDir_sub,tokenIn,installDir)

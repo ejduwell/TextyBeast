@@ -6,7 +6,7 @@ import torch
 import moviepy.editor as mp
 import shutil
 
-def run(inFile,OutDir,OutDir_sub):
+def run(inFile,OutDir,OutDir_sub,tokenIn,installDir):
     #OutDir='/scratch/g/tark/dataScraping/output'
     #OutDir_sub="test"
     #Preparing the audio file
@@ -34,7 +34,10 @@ def run(inFile,OutDir,OutDir_sub):
     #=========================================================
     #Go to the output directory
     os.chdir(OutDir)
-    os.mkdir(OutDir_sub)
+    
+    if not os.path.exists(OutDir_sub):
+    	os.mkdir(OutDir_sub)
+    
     os.chdir(OutDir_sub)
     os.mkdir("videos")
     # specify the directory where you want to copy the file
@@ -51,7 +54,9 @@ def run(inFile,OutDir,OutDir_sub):
     audio.export('audio.wav', format='wav')
     
     from huggingface_hub import login
+    
     #login("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")
+    login(tokenIn)
     
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1", use_auth_token=True)
     
@@ -179,7 +184,7 @@ def run(inFile,OutDir,OutDir_sub):
     finSignal = str(random.randint(10000000, 99999999))+".txt"
     
     #assemble whisper command for whisper environment job..
-    whspCmd="cd /mnt/76cfc2bb-b830-47a1-9a9c-0d28b8a1efab/python_projects/installTesting/latest/dataScraping; ./whsprXenv_3"+" "+modelstr+" "+dirOut+" "+lang+" "+dirOut+" "+finSignal+" "+afileStr
+    whspCmd="cd "+installDir+"; ./whsprXenv_3"+" "+modelstr+" "+dirOut+" "+lang+" "+dirOut+" "+finSignal+" "+afileStr
     #whspCmd="sbatch /scratch/g/tark/installTesting/dataScraping/whsprXenv_2.slurm"+" "+modelstr+" "+dirOut+" "+lang+" "+dirOut+" "+finSignal+" "+afileStr
     subprocess.call(whspCmd, shell=True)
     
