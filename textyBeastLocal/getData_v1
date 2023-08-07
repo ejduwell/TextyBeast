@@ -12,7 +12,7 @@ echo ""
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=5
+nxArg=6
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -42,13 +42,15 @@ else
   finSignal=$3
   infileName=$4
   logFileName=$5
+  remoteDir=$6
   #echo "#########################################################################"
 fi
 # ====================================================
 
 #PARAMETERS
 # ====================================================
-outBase=/scratch/g/tark/installTesting/dataScraping/output #!!!!!!!!!
+outBase=$remoteDir/output #!!!!!!!!!
+
 outFolder=$outBase/$finSignal
 sig=$outBase/$finSignal/DONE
 waitInt=15
@@ -63,7 +65,7 @@ while [ $goSign -eq 0 ]
 do
   sleep $waitInt #sleep for x seconds each pass to limit number amount of cpu usage on user node..
   #above addition effectively limits checking to one time every x seconds..
-  chkCmd="bash /scratch/g/tark/dataScraping/checkJob $sig"
+  chkCmd="bash $remoteDir/checkJob $sig"
   chk=$(ssh $unLocal@login-hpc.rcc.mcw.edu $chkCmd)
 
   if [ "$chk" -gt 0 ];
@@ -113,9 +115,7 @@ cmd1="rm $infileName"
 cmd2="rm -rf $outFolder"
 cmd3="rm $logFileName"
 
-ssh $unLocal@login-hpc.rcc.mcw.edu $cmd1 #clean input file out of cluster input dir..
 ssh $unLocal@login-hpc.rcc.mcw.edu $cmd2 #clean up .. remove output subdir from cluster
-ssh $unLocal@login-hpc.rcc.mcw.edu $cmd3 #clean up .. remove output logfile from cluster
 
 echo ""
 echo "Finished."
