@@ -37,7 +37,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 - Must have an NVIDIA gpu
 - Will function best on a Linux machine equipped with newer NVIDIA cards.
 - Will need 6-8 GB of GPU ram (preferably more)
-- Must have python3.9-dev and python3.8-dev installed
+- Must have both python3.9 and python3.8 installed
 - If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards. Without dedicated NVIDIA gpus, TextyBeast may run/work but will likely default to much slower cpu-only models.
 
 ## Installation:
