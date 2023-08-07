@@ -6,7 +6,7 @@ import torch
 import moviepy.editor as mp
 import shutil
 
-def run(inFile,OutDir,OutDir_sub,tokenIn,installDir):
+def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel):
     #OutDir='/scratch/g/tark/dataScraping/output'
     #OutDir_sub="test"
     #Preparing the audio file
@@ -166,7 +166,7 @@ def run(inFile,OutDir,OutDir_sub,tokenIn,installDir):
     #Run whisper on all audio files. Whisper generates the transcription and writes it to a file.
     os.chdir(OutDir)
     #modelstr="large" #orig
-    modelstr="base" #for debugging speed..
+    modelstr=whspModel #for debugging speed..
     dirOut=OutDir
     lang="English"
     print("Begining Whisper Loop..")

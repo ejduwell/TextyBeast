@@ -11,5 +11,6 @@ OutDir = sys.argv[2];
 OutDir_sub = sys.argv[3];
 tokenIn = sys.argv[4];
 installDir = sys.argv[5];
+whspModel = sys.argv[6];
 
-wsprPyannote1.run(inFile,OutDir,OutDir_sub,tokenIn,installDir)
+wsprPyannote1.run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel)
