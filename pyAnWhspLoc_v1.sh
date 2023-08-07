@@ -39,7 +39,7 @@ echo ""
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=4
+nxArg=5
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -73,6 +73,7 @@ else
   finSignal=$2
   tokenIn=$3
   outDirFinal=$4
+  parsFile=$5
   echo "#########################################################################"
   echo ""
 fi
@@ -98,6 +99,38 @@ outDirSub=$fBase-output-$dateTime
 PyanWhspEnvDir="$homeDir/envs/pyannote"
 video="$(basename $videoFile)"
 # ====================================================
+#-------------------------------------------------------------------------------
+# SOURCE PARS FILE
+#-------------------------------------------------------------------------------
+
+if [[ $parsFile == "default" ]]; then
+echo ""
+echo "Sourcing Default Parameters:"
+curDir=$(pwd)
+cd $BASEDIR
+source defaultPars.sh
+cd $curDir
+
+else
+echo ""
+echo "Sourcing Parameters from Input Pars.sh File:"
+curDir=$(pwd)
+cd $BASEDIR
+source $parsFile
+cd $curDir
+fi
+
+echo "frame_dsrate: $frame_dsrate"
+echo "cor_thr: $cor_thr"
+echo "detector: $detector"
+echo "recognizer: $recognizer"
+echo "Detector: $x_merge"
+echo "x_merge: $ClustThr_factor"
+echo "det_ckpt_in: $det_ckpt_in"
+echo "recog_ckpt_in: $recog_ckpt_in"
+echo "whspModel: $whspModel"
+#-------------------------------------------------------------------------------
+
 
 # SET UP PATH/DIRECTORIES
 # ====================================================
@@ -141,7 +174,7 @@ echo "======================================================="
 # Run Pyannote/Whisper script.. 
 #srun --nodes=1 --ntasks=1 python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
 #python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
-python ./lib/python3.8/site-packages/wsprPyannote2.py $videoFile $outDirBase $outDirSub $tokenIn $BASEDIR
+python ./lib/python3.8/site-packages/wsprPyannote2.py $videoFile $outDirBase $outDirSub $tokenIn $BASEDIR $whspModel
 
 echo "======================================================="
 echo "Pyannote/Whisper Pipeline Completed ..."

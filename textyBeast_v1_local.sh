@@ -32,7 +32,7 @@ echo ""
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=3
+nxArg=4
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -65,6 +65,7 @@ else
   
   finSignal=$2
   outDirFinal=$3
+  parsFile=$4
   echo "#########################################################################"
 fi
 # ====================================================
@@ -93,27 +94,63 @@ outDir=($homeDir/output/$fBase-output-$dateTime) #make unique output directory n
 #-------------------------------------------------------------------------------
 MMOCREnvDir=$homeDir/envs/ocr
 video="$(basename $videoFile)" #strip path from video file to make input for mmocr..
-frame_dsrate=5 # Specifies the frame rate at which video is initially sampled
-cor_thr=0.95 # Controls the correlation threshold used to determine when enough has changed in video to count as a "new unique frame"
-detector='PANet_IC15'
-recognizer='SAR'
-x_merge=65
-ClustThr_factor=3
-det_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/panet_r18_fpem_ffm_sbn_600e_icdar2015_20210219-42dbe46a.pth'
-recog_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academic-dba3a4a3.pth'
 mmocrOut_dir=$outDir/out_dir/video_img_dta
 configsDir=$homeDir/"envs/ocr/env/lib/python3.8/site-packages/mmocr/configs"
+
+#frame_dsrate=5 # Specifies the frame rate at which video is initially sampled
+#cor_thr=0.95 # Controls the correlation threshold used to determine when enough has changed in video to count as a "new unique frame"
+#detector='PANet_IC15'
+#recognizer='SAR'
+#x_merge=65
+#ClustThr_factor=3
+#det_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/panet_r18_fpem_ffm_sbn_600e_icdar2015_20210219-42dbe46a.pth'
+#recog_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academic-dba3a4a3.pth'
+
+
+
 #-------------------------------------------------------------------------------
 # Whisper Specific Parameters:
 #-------------------------------------------------------------------------------
+#whspModel=base
+
 WhspEnvDir=$homeDir/envs/whspr
-whspModel=base
 #strip away both path and extension from input video file to get base name
 audioBase=${videoFile%.*}
 audioBase=${audioBase##*/}
 #use base name above to construct full path name for eventual audio file created later in script..
 audioFile=$outDir/out_dir/audio_speech_dta/$audioBase.wav
 whsprOut_dir=$outDir/out_dir/audio_speech_dta
+
+#-------------------------------------------------------------------------------
+# SOURCE PARS FILE
+#-------------------------------------------------------------------------------
+
+if [[ $parsFile == "default" ]]; then
+echo ""
+echo "Sourcing Default Parameters:"
+curDir=$(pwd)
+cd $BASEDIR
+source defaultPars.sh
+cd $curDir
+
+else
+echo ""
+echo "Sourcing Parameters from Input Pars.sh File:"
+curDir=$(pwd)
+cd $BASEDIR
+source $parsFile
+cd $curDir
+fi
+
+echo "frame_dsrate: $frame_dsrate"
+echo "cor_thr: $cor_thr"
+echo "detector: $detector"
+echo "recognizer: $recognizer"
+echo "Detector: $x_merge"
+echo "x_merge: $ClustThr_factor"
+echo "det_ckpt_in: $det_ckpt_in"
+echo "recog_ckpt_in: $recog_ckpt_in"
+echo "whspModel: $whspModel"
 #-------------------------------------------------------------------------------
 # ====================================================
 
