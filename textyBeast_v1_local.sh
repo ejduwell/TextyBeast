@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# SLURM JOB INFO PARAMETERS
+# ====================================================
+#SBATCH --job-name=dtaScrape
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=10gb
+#SBATCH --time=01:25:00
+#SBATCH --account=tark
+##SBATCH --qos=dev
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:1
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=eduwell@mcw.edu
+
 # data scraping whisper and mmocr combined pipeline.. locally..
 
 # Spit out job info..
@@ -32,7 +45,7 @@ echo ""
 # PROCESS INPUT ARGUMENTS
 # ====================================================
 # number of expected input arguments (must update if more are added in development):
-nxArg=4
+nxArg=5
 
 # Check that expected number of input args were provided.
 # If so, echo the inputs onto the command line such that they are present in the
@@ -66,6 +79,7 @@ else
   finSignal=$2
   outDirFinal=$3
   parsFile=$4
+  homeDir=$5
   echo "#########################################################################"
 fi
 # ====================================================
@@ -76,10 +90,11 @@ fi
 #-------------------------------------------------------------------------------
 # General Paramters:
 #-------------------------------------------------------------------------------
-
+BASEDIR=$homeDir
 # get the full path to the main package directory for this package on this machine
-BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-homeDir=$BASEDIR;
+
+#BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+#homeDir=$BASEDIR;
 
 outBase=$homeDir/output
 dateTime=$(date +%m-%d-%y-%H-%M-%S-%N) #get date and time of start
@@ -87,7 +102,6 @@ dateTime=$(date +%m-%d-%y-%H-%M-%S-%N) #get date and time of start
 fBase=${videoFile%.*}
 fBase=${fBase##*/}
 outDir=($homeDir/output/$fBase-output-$dateTime) #make unique output directory name/path tagged with date and time
-
 
 #-------------------------------------------------------------------------------
 # MMOCR Specific Parameters:
@@ -128,10 +142,10 @@ whsprOut_dir=$outDir/out_dir/audio_speech_dta
 if [[ $parsFile == "default" ]]; then
 echo ""
 echo "Sourcing Default Parameters:"
-curDir=$(pwd)
-cd $BASEDIR
-source defaultPars.sh
-cd $curDir
+#curDir=$(pwd)
+#cd $BASEDIR
+source $homeDir/defaultPars.sh
+#cd $curDir
 
 else
 echo ""
@@ -237,6 +251,8 @@ echo "#########################################################################"
 # List currently loaded modules ..
 #module list
 
+module load ffmpeg
+
 echo "Current info on GPU from nvidia-smi:"
 echo "===================================================="
 nvidia-smi
@@ -318,13 +334,18 @@ logfile=$(basename "$videoFile").out
 cp $BASEDIR/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
 rm -rf $outDir #get rid of original/unzipped data dir..
 
-#Enter final output dir and copy contents to final output directory...
+#Enter final output dir and give the signal that we're all done...
 cd $outBase/$finSignal/ #enter final output dir..
-mv * $outDirFinal
+
+sig="done"
+echo $sig > DONE
+# Go back to start dir..
+cd $strtDir
 
 # Clean up output directory
 cd $BASEDIR/output/
-rm -rf $finSignal #remove temporary dir in output now that its contents have been moved
+rm $logfile
+
 # Clean up input directory
 cd $BASEDIR/input
 rm $video # remove video from input
