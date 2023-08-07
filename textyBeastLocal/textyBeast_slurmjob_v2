@@ -148,15 +148,14 @@ outDirSub=$fBase-output-$dateTime
 #echo "Please enter your username on the cluster below:"
 #read -p 'Username: ' uservar
 
-
 # First, clean filenames of any characters which might break code ..
 chmod +wrx clnFileNames # make sure clnFileNames is executable .. 
 ./clnFileNames $inDirLocal #run it..
-cd $BASEDIR
+
 #use scp to push the data to the cluster..
-echo "Pushing data to input folder.."
-cp $inDirLocal/* $inDirClst/
-echo "Data transfer complete .."
+echo "Pushing data in selected folder to the cluster .."
+scp -r $inDirLocal/* $uservar@$clstrHost:$inDirClst/
+echo "Data upload complete .."
 echo ""
 
 # Go to the local input directory and loop through all files inside.. 
@@ -181,7 +180,7 @@ echo "Running Video Lecture Job..."
 #cd $BASEDIR
 #./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile > $remoteDir/output/$FILE.out
 
-txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile"
+txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/textyBeast_v1_slurm.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
@@ -198,11 +197,11 @@ ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
 # Remove copy of $FILE.out from output dir.. (should have been saved along with output if final dir..)
-cd $remoteDir/output/
-rm $FILE.out
+#cd $remoteDir/output/
+#rm $FILE.out
 
 # add onto data pull command list string..
-cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out;"
+cmd1="$cmd1 ./getData_v1 $uservar $dirLocal $finSignal $videoFile $remoteDir/output/$FILE.out $remoteDir;"
 done
 
 echo "------------------------------------------------"
@@ -214,6 +213,7 @@ echo ""
 
 # run through the getData_v1 commands saved in
 # cmd1 to monitor for the completion of the jobs ..
+cd $SCRIPTDIR
 eval $cmd1
 
 
