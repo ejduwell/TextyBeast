@@ -26,7 +26,7 @@ def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel):
     # use the os.path.basename() function to get the file name
     file_name = os.path.basename(inFile)
     # Build the descriptive title for the html output page
-    video_title="Diarized transcript for interview file: "+file_name
+    video_title="Diarized transcript for: "+file_name
     video_id="videos/"+file_name
     #=========================================================
     
