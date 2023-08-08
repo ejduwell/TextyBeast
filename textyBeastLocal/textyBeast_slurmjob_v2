@@ -192,7 +192,7 @@ read tokenIn
 echo ""
 #./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile > $remoteDir/output/$FILE.out
 
-txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile"
+txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/pyAnWhsp_v1_slurm.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
