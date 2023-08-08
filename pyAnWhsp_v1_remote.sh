@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# SLURM JOB INFO PARAMETERS
-# ====================================================
-#SBATCH --job-name=dtaScrape
-#SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=10gb
-#SBATCH --time=01:25:00
-#SBATCH --account=tark
-##SBATCH --qos=dev
-#SBATCH --partition=gpu
-#SBATCH --gres=gpu:1
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=eduwell@mcw.edu
-
 # data scraping whisper and pyannote for diarized transcription..
 
 #local
