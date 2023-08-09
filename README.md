@@ -292,7 +292,7 @@ Follow one of the three install instructions below based on which set up you pla
    source ~/.bashrc
 
    # (for python3.9)
-   # follow similar procedure to whats outlined above for python3.8.
+   # follow similar procedure to what is outlined above for python3.8.
    # replace wget call with alternative to pull your desired python3.9 version
    # from https://www.python.org/ftp/python/
    #--------------------------------------
