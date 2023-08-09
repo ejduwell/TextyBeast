@@ -6,14 +6,15 @@ import torch
 import moviepy.editor as mp
 import shutil
 
-def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel):
+def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel,maxSpeakers):
+    
     #OutDir='/scratch/g/tark/dataScraping/output'
     #OutDir_sub="test"
     #Preparing the audio file
     # Extract .WAV audio from video and save in audio directory
     #-----------------------------------------------------------------
     #inFile="/scratch/g/tark/dataScraping/envs/gtp/env/input/test_trm.mp4"
-    
+    maxSpeakers=int(maxSpeakers);
     clip = mp.VideoFileClip(inFile) 
     audioOut_fname = os.path.splitext(inFile)[0]+".wav" 
     clip.audio.write_audiofile(audioOut_fname)
@@ -59,7 +60,7 @@ def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel):
     pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1", use_auth_token=True)
     
     DEMO_FILE = {'uri': 'blabla', 'audio': 'audio.wav'}
-    dz = pipeline(DEMO_FILE)  
+    dz = pipeline(DEMO_FILE,min_speakers=1, max_speakers=maxSpeakers)  
     #dz = pipeline("audio.wav") 
     
     
@@ -190,7 +191,7 @@ def run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel):
     print("Generating the HTML file from the Transcriptions and the Diarization")
     #=========================================================
     #Change or add to the speaker names and collors bellow as you wish (speaker, textbox color, speaker color).
-    speakers = {'SPEAKER_00':('Person 1', 'white', 'darkorange'), 'SPEAKER_01':('Person 2', '#e1ffc7', 'darkgreen') }
+    speakers = {'SPEAKER_00':('Person 1', 'white', 'darkorange'), 'SPEAKER_01':('Person 2', '#e1ffc7', 'darkgreen'), 'SPEAKER_02':('Person 3', '#e4c7ff', '#8b12fc'), 'SPEAKER_03':('Person 4', '#d9b99a', '#f77d02'), 'SPEAKER_04':('Person 5', '#96a8e0', '#053efa'), 'SPEAKER_05':('Person 6', '#b878bf', '#dc00f5'), 'SPEAKER_06':('Person 7', '#90d1cc', '#019185'), 'SPEAKER_07':('Person 8', '#b6b8b4', '#30302f'), 'SPEAKER_08':('Person 9', '#dbd3a0', '#705d15'), 'SPEAKER_09':('Person 10', '#5eb5b2', '#043331')}
     def_boxclr = 'white'
     def_spkrclr = 'orange'
     

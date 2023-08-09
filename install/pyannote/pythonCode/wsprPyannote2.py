@@ -12,5 +12,6 @@ OutDir_sub = sys.argv[3];
 tokenIn = sys.argv[4];
 installDir = sys.argv[5];
 whspModel = sys.argv[6];
+maxSpeakers = sys.argv[7];
 
-wsprPyannote1.run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel)
+wsprPyannote1.run(inFile,OutDir,OutDir_sub,tokenIn,installDir,whspModel,maxSpeakers)
