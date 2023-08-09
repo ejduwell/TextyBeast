@@ -1,4 +1,4 @@
-#!/bin/bash
+ote#!/bin/bash
 
 # Local bash function for calling data_scraping pipeline v1
 
@@ -163,7 +163,7 @@ cd $inDirLocal
 
 #cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
 
-echo "Submitting Each Video as a Separate Local Job:"
+echo "Submitting Each Video as a Separate Slurm Job:"
 echo "------------------------------------------------"
 
 for FILE in *
@@ -174,11 +174,8 @@ finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for 
 
 # Run Data Scraping Pipeline Command Via SSH
 if [[ $jobType == "vl" ]]; then
-#txtyBeastCmd="bash $remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
 echo ""
 echo "Running Video Lecture Job..."
-#cd $BASEDIR
-#./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile > $remoteDir/output/$FILE.out
 
 txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/textyBeast_v1_slurm.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
