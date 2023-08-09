@@ -215,7 +215,7 @@ Follow one of the three install instructions below based on which set up you pla
 
 ### Running Jobs on Remote Slurm Cluster:
 
-### Running Jobs Remotely on Non-Slurm System::
+### Running Jobs Remotely on Non-Slurm System:
 
 ## Notes:
 
