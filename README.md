@@ -38,6 +38,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 - Will function best on a Linux machine equipped with newer NVIDIA cards.
 - Will need 6-8 GB of GPU ram (preferably more)
 - Must have both python3.9 and python3.8 installed
+- Must have ffmpeg installed
 - If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards. Without dedicated NVIDIA gpus, TextyBeast may run/work but will likely default to much slower cpu-only models.
 
 ## Installation:
@@ -210,4 +211,45 @@ Follow one of the three install instructions below based on which set up you pla
 
 ## Notes
 
-insert notes here...
+1) Some local scripts depend on jot. This does not appear to come pre-installed on Ubuntu. If you are running an Ubuntu machine and don't have jot installed yet, you will need to run:
+   ```
+   sudo apt-get update -y
+   sudo apt-get install -y athena-jot
+   ```
+2) This package depends on ffmpeg. If this is not already installed on your local or remote system, you will need to install it:
+   ```
+   # If you have sudo privileges:
+   #--------------------------------------
+   # Ubuntu/Debian
+   sudo apt update
+   sudo apt install ffmpeg
+
+   # Centos
+   sudo yum install epel-release -y
+   sudo rpm -Uvh https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+   sudo yum install ffmpeg ffmpeg-devel
+   #--------------------------------------
+
+   # If you don't have sudo privileges,
+   # You can install a local copy from source:
+   #--------------------------------------
+   
+   # pull local copy to home directory (or wherever you like) and unpack
+   cd ~
+   wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+   tar xjvf ffmpeg-snapshot.tar.bz2
+   cd ffmpeg
+
+   # configure it
+   ./configure --prefix=$HOME/ffmpeg_build
+
+   # make/install
+   make
+   make install
+
+   # add FFmpeg to your PATH so you can run it without specifying the full path. Add this to your ~/.bashrc or ~/.zshrc or appropriate profile file:
+   export PATH="$HOME/ffmpeg_build/bin:$PATH"
+   source ~/.bashrc
+   #--------------------------------------
+   ```
+3) This package requires both python3.8 and python3.9. If you don't have both of these installed you will need to do so:
