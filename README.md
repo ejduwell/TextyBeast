@@ -219,11 +219,23 @@ Follow one of the three install instructions below based on which set up you pla
 
 ## Usage:
 
-### Running Jobs Locally:
+### Running Jobs Locally: textyBeast_localjob
 
-### Running Jobs on Remote Slurm Cluster:
+General syntax:
 
-### Running Jobs Remotely on Non-Slurm System:
+textyBeast_localjob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
+
+### Running Jobs on Remote Slurm Cluster: textyBeast_slurmjob
+
+General syntax:
+
+textyBeast_slurmjob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
+
+### Running Jobs Remotely on Non-Slurm System: textyBeast_remotejob
+
+General syntax:
+
+textyBeast_remotejob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
 
 ## Notes:
 
