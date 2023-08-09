@@ -45,6 +45,15 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 - Must have jot installed
 - Must have ffmpeg installed
 - If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards. Without dedicated NVIDIA gpus, TextyBeast may run/work but will likely default to much slower cpu-only models.
+- Must have a huggingface account and request access to Pyannote's speaker-diarization model:
+  
+        - Create huggingface account at: https://huggingface.co
+        - Get access token for gated pyannote speaker diarization model by following instructions below:
+  
+                1. visit hf.co/pyannote/speaker-diarization and accept user conditions
+                2. visit hf.co/pyannote/segmentation and accept user conditions
+                3. visit hf.co/settings/tokens to create an access token
+        
 
 - If you're having dependency issues with any of the packages listed above, see the notes section below.
 (https://github.com/ejduwell/TextyBeast/blob/main/README.md#notes)
@@ -207,7 +216,6 @@ Follow one of the three install instructions below based on which set up you pla
 
 ### To be able to run jobs on a remote machine that is not a SLURM cluster:
    - Same install procedure as for remote SLURM cluster above
-
 
 ## Usage:
 
