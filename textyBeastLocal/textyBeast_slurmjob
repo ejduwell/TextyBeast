@@ -140,14 +140,6 @@ echo ""
 outDirBase=($remoteDir/output)
 outDirSub=$fBase-output-$dateTime
 
-# Interactive Input Arguments:
-# ------------------------------
-# Ask the user for login details
-#echo "Cluster Login Info:"
-#echo "#########################################################################"
-#echo "Please enter your username on the cluster below:"
-#read -p 'Username: ' uservar
-
 # First, clean filenames of any characters which might break code ..
 chmod +wrx clnFileNames # make sure clnFileNames is executable .. 
 ./clnFileNames $inDirLocal #run it..
