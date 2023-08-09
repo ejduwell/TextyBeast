@@ -151,6 +151,7 @@ if [[ "$STR" == "$SUB" ]]; then
     #ssh-keygen -t rsa -b 2048
     ssh-keygen -p -f ~/.ssh/id_rsa
     eval "$(ssh-agent -s)"
+    ssh-copy-id $uservar@$clstrHost
     # add to your shell profile file
     echo 'eval "$(ssh-agent -s)"' >> $rcFile
     echo 'ssh-add ~/.ssh/id_rsa' >> $rcFile
@@ -180,6 +181,7 @@ else
 	 #ssh-keygen -t rsa -b 2048
 	 ssh-keygen -p -f ~/.ssh/id_rsa
 	 eval "$(ssh-agent -s)"
+  	 ssh-copy-id $uservar@$clstrHost
 	 # add to your shell profile file
 	 echo 'eval "$(ssh-agent -s)"' >> $rcFile
 	 echo 'ssh-add ~/.ssh/id_rsa' >> $rcFile
