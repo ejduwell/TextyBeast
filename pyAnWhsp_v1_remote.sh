@@ -150,8 +150,6 @@ cp $videoFile $outDir/$video
 videoFile=$outDir/$video
 # ====================================================
 
-module load ffmpeg
-
 echo "Current info on GPU from nvidia-smi:"
 echo "===================================================="
 nvidia-smi
