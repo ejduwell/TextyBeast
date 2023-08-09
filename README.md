@@ -237,7 +237,6 @@ Follow one of the three install instructions below based on which set up you pla
    # If you don't have sudo privileges,
    # You can install a local copy from source:
    #--------------------------------------
-   
    # pull local copy to home directory (or wherever you like) and unpack
    cd ~
    wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
