@@ -43,6 +43,7 @@ This repository can be installed/setup to run jobs locally, on a remote SLURM cl
 - If installing on a Mac, you may only be able to submit/run jobs remotely on a system equipped with NVIDIA cards. Without dedicated NVIDIA gpus, TextyBeast may run/work but will likely default to much slower cpu-only models.
 
 - If you're having dependency issues with any of the packages listed above, see the notes section below.
+(https://github.com/ejduwell/TextyBeast/blob/main/README.md#notes)
 
 ## Installation:
 Follow one of the three install instructions below based on which set up you plan to run.
