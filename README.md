@@ -34,7 +34,7 @@ TextyBeast is a Python and Bash repository for scraping both spoken and written 
 - https://github.com/openai/whisper
 - https://github.com/pyannote
 
-This repository can be installed/setup to run jobs locally, on a remote SLURM cluster, or both.
+This repository can be installed/setup to run jobs locally, remotely (including SLURM clusters), or both.
 
 ## Requirements/Dependencies:
 - Must be running a Linux operating system or MacOS
