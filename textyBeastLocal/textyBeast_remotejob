@@ -180,7 +180,7 @@ echo "Running Video Lecture Job..."
 #cd $BASEDIR
 #./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile > $remoteDir/output/$FILE.out
 
-txtyBeastCmd="$remoteDir/textyBeast_v1_slurm.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
+txtyBeastCmd="$remoteDir/textyBeast_v1_remote.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
@@ -192,7 +192,7 @@ read tokenIn
 echo ""
 #./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile > $remoteDir/output/$FILE.out
 
-txtyBeastCmd="$remoteDir/pyAnWhsp_v1_slurm.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
+txtyBeastCmd="$remoteDir/pyAnWhsp_v1_remote.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
