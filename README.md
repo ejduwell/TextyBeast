@@ -201,7 +201,12 @@ Follow one of the three install instructions below based on which set up you pla
 
 
 ## Usage:
-insert instructions for usage here...
+
+### Running Jobs Locally:
+
+### Running Jobs on Remote Slurm Cluster:
+
+### Running Jobs Remotely on Non-Slurm System::
 
 ## Notes
 
