@@ -30,6 +30,11 @@ recog_ckpt_in=$homeDir'/envs/ocr/env/mmocrChkpts/sar_r31_parallel_decoder_academ
 whspModel=base # specify whisper model size (tiny, base, medium, or large) 
 
 #-------------------------------------------------------------------------------
+# Specify Pyannote Specific Parameters:
+#-------------------------------------------------------------------------------
+maxSpeakers=10 # indicate the maximum number of potential seperate speakers in the file.
+
+#-------------------------------------------------------------------------------
 # Export Parameters Specified Above:
 #-------------------------------------------------------------------------------
 export frame_dsrate=$frame_dsrate
@@ -41,3 +46,4 @@ export ClustThr_factor=$ClustThr_factor
 export det_ckpt_in=$det_ckpt_in
 export recog_ckpt_in=$recog_ckpt_in
 export whspModel=$whspModel
+export maxSpeakers=$maxSpeakers
