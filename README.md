@@ -195,6 +195,11 @@ Follow one of the three install instructions below based on which set up you pla
    ```
    ./addFcns2Path.sh
    ```    
+
+### To be able to run jobs on a remote machine that is not a SLURM cluster:
+   - Same install procedure as for remote SLURM cluster above
+
+
 ## Usage:
 insert instructions for usage here...
 
