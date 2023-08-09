@@ -178,16 +178,6 @@ echo "###########       EXTRACT TEXT FROM IMAGES WITH MMOCR         ###########"
 echo "#########################################################################"
 echo "#########################################################################"
 
-# LOAD RCC CLUSTER MODULES
-# ====================================================
-
-#module load python/3.9.1
-#module load ffmpeg
-#module load cuda/11.7.0
-
-# List currently loaded modules ..
-#module list
-
 echo "Current info on GPU from nvidia-smi:"
 echo "===================================================="
 nvidia-smi
@@ -228,17 +218,6 @@ echo "#########################################################################"
 echo "###########       EXTRACT TEXT FROM AUDIO WITH WHISPER        ###########"
 echo "#########################################################################"
 echo "#########################################################################"
-
-# LOAD RCC CLUSTER MODULES
-# ====================================================
-#module load python/3.9.1 #ejd commented as this is already loaded earlier
-#module unload ffmpeg #ejd commented as this is already loaded earlier
-#module unload cuda/11.7.0 #unload the cuda module loaded earlier..
-
-# List currently loaded modules ..
-#module list
-
-module load ffmpeg
 
 echo "Current info on GPU from nvidia-smi:"
 echo "===================================================="
