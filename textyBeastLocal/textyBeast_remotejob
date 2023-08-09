@@ -163,7 +163,7 @@ cd $inDirLocal
 
 #cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
 
-echo "Submitting Each Video as a Separate Local Job:"
+echo "Submitting Each Video as a Separate Remote Job:"
 echo "------------------------------------------------"
 
 for FILE in *
