@@ -209,7 +209,7 @@ Follow one of the three install instructions below based on which set up you pla
 
 ### Running Jobs Remotely on Non-Slurm System::
 
-## Notes
+## Notes:
 
 1) Some local scripts depend on jot. This does not appear to come pre-installed on Ubuntu. If you are running an Ubuntu machine and don't have jot installed yet, you will need to run:
    ```
@@ -253,3 +253,47 @@ Follow one of the three install instructions below based on which set up you pla
    #--------------------------------------
    ```
 3) This package requires both python3.8 and python3.9. If you don't have both of these installed you will need to do so:
+   ```
+   # If you have sudo privileges:
+   #--------------------------------------
+   sudo add-apt-repository ppa:deadsnakes/ppa
+   sudo apt-get update
+   
+   # (For python3.8)
+   sudo apt-get install python3.8
+   sudo apt-get install python3.8-dev
+   
+   # (For python3.9)
+   sudo apt-get install python3.9
+   sudo apt-get install python3.9-dev
+   #--------------------------------------
+
+   # If you don't have sudo privileges,
+   # You can install a local copy from source:
+   #--------------------------------------
+   # (for python3.8)
+   #download and unpack a local copy of python3.8.17
+   wget https://www.python.org/ftp/python/3.8.17/Python-3.8.17.tgz
+   tar -xvf Python-3.8.17.tgz
+
+   # enter directory
+   cd Python-3.8.17
+
+   # configure it
+   ./configure --prefix=${HOME}/python3817
+
+   # run make and then make install to make/install the local copy..
+   make
+   make install
+
+   # add the python3.8 directory to the permanent general path by running the to the following call
+   # which pastes the relevant add-path command within the .bashrc , and then re-source .bashrc
+   echo 'export PATH=${HOME}/python3817/bin:$PATH' >> ~/.bashrc
+   source ~/.bashrc
+
+   # (for python3.9)
+   # follow similar procedure to whats outlined above for python3.8.
+   # replace wget call with alternative to pull your desired python3.9 version
+   # from https://www.python.org/ftp/python/
+   #--------------------------------------
+   ```
