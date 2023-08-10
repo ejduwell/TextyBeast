@@ -150,7 +150,7 @@ Follow one of the three install instructions below based on which set up you pla
    ./addFcns2Path.sh
    ```
 
-8. Finally, you will need to make some small edits the .slurm files on the cluster to configure them for your account info:
+8. Finally, you will need to make some small edits to the SLURM headers of two files on the cluster to configure them for your SLURM account:
 
    - ssh into the cluster:
      ```
@@ -158,7 +158,7 @@ Follow one of the three install instructions below based on which set up you pla
      ```
    - navigate to the main TextyBeast directory
      ```
-     cd full/path/to/TextyBeast
+     cd /path/to/TextyBeast
      ```
    - use your favorite text editor to edit the following files: `textyBeast_v1_slurm.sh` and `pyAnWhsp_v1_slurm.sh`
      ```
