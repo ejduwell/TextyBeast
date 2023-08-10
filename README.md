@@ -34,6 +34,10 @@ TextyBeast is a Python and Bash repository for scraping both spoken and written 
 - https://github.com/openai/whisper
 - https://github.com/pyannote
 
+This repository was developed to scrape text data from video recorded lectures and classroom sessions and provide low-level data describing
+spoken and written information within a course/curriculum for educational research and curricular development. This is it's intended use case, 
+but it could could be used for other applications as well.
+
 This repository can be installed/setup to run jobs locally, remotely (including SLURM clusters), or both.
 
 ## Requirements/Dependencies:
