@@ -155,6 +155,14 @@ cd $inDirLocal
 
 #cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
 
+if [[ $jobType == "di" ]]; then
+#cd $BASEDIR
+echo ""
+echo "Please Enter Your Huggingface Token for Pyannote:"
+read tokenIn
+echo ""
+fi
+
 echo "Submitting Each Video as a Separate Slurm Job:"
 echo "------------------------------------------------"
 
@@ -168,19 +176,13 @@ finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for 
 if [[ $jobType == "vl" ]]; then
 echo ""
 echo "Running Video Lecture Job..."
-
 txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/textyBeast_v1_slurm.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
 if [[ $jobType == "di" ]]; then
-#cd $BASEDIR
 echo ""
-echo "Please Enter Your Huggingface Token for Pyannote:"
-read tokenIn
-echo ""
-#./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile > $remoteDir/output/$FILE.out
-
+echo "Running Speaker Diarization Job..."
 txtyBeastCmd="sbatch -o $remoteDir/output/$FILE.out $remoteDir/pyAnWhsp_v1_slurm.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile $remoteDir"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
