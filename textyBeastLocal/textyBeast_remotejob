@@ -163,6 +163,14 @@ cd $inDirLocal
 
 #cmd1="cd $startDir;" #initialize command list for monitoring/retrieving data when cluster is done..
 
+if [[ $jobType == "di" ]]; then
+#cd $BASEDIR
+echo ""
+echo "Please Enter Your Huggingface Token for Pyannote:"
+read tokenIn
+echo ""
+fi
+
 echo "Submitting Each Video as a Separate Remote Job:"
 echo "------------------------------------------------"
 
@@ -174,24 +182,15 @@ finSignal="$(jot -r 1 10000000 99999999)" #generate unique random number to for 
 
 # Run Data Scraping Pipeline Command Via SSH
 if [[ $jobType == "vl" ]]; then
-#txtyBeastCmd="bash $remoteDir/textyBeast_v1_local.sh $videoFile $finSignal $remoteDir > $remoteDir/output/$FILE.out"
 echo ""
 echo "Running Video Lecture Job..."
-#cd $BASEDIR
-#./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile > $remoteDir/output/$FILE.out
-
 txtyBeastCmd="$remoteDir/textyBeast_v1_remote.sh $videoFile $finSignal $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
 
 if [[ $jobType == "di" ]]; then
-#cd $BASEDIR
 echo ""
-echo "Please Enter Your Huggingface Token for Pyannote:"
-read tokenIn
-echo ""
-#./pyAnWhspLoc_v1.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile > $remoteDir/output/$FILE.out
-
+echo "Running Speaker Diarization Job..."
 txtyBeastCmd="$remoteDir/pyAnWhsp_v1_remote.sh $videoFile $finSignal $tokenIn $dirLocal $parsFile $remoteDir > $remoteDir/output/$FILE.out"
 ssh $uservar@$clstrHost $txtyBeastCmd
 fi
