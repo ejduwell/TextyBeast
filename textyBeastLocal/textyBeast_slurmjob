@@ -1,4 +1,4 @@
-ote#!/bin/bash
+#!/bin/bash
 
 # Local bash function for calling data_scraping pipeline v1
 
