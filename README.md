@@ -149,6 +149,42 @@ Follow one of the three install instructions below based on which set up you pla
    ```
    ./addFcns2Path.sh
    ```
+
+8. Finally, you will need to make some small edits the .slurm files on the cluster to configure them for your account info:
+
+   - ssh into the cluster:
+     ```
+     ssh <yourUsername>@<yourSlurmClusterHostname/IP>
+     ```
+   - navigate to the main TextyBeast directory
+     ```
+     cd full/path/to/TextyBeast
+     ```
+   - use your favorite text editor to edit the following files: `textyBeast_v1_slurm.sh` and `pyAnWhsp_v1_slurm.sh`
+     ```
+     nano textyBeast_v1_slurm.sh
+     ```
+
+   - At the very top of each file under a commented header that reads `SLURM JOB INFO PARAMETERS` you should see a list of options all listed after `#SBATCH`:
+     
+     ```
+     # SLURM JOB INFO PARAMETERS
+     # ====================================================
+     #SBATCH --job-name=dtaScrape
+     #SBATCH --ntasks=1
+     #SBATCH --mem-per-cpu=10gb
+     #SBATCH --time=01:25:00
+     #SBATCH --account=tark
+     ##SBATCH --qos=dev
+     #SBATCH --partition=gpu
+     #SBATCH --gres=gpu:1
+     #SBATCH --mail-type=ALL
+     #SBATCH --mail-user=eduwell@mcw.edu
+     ```
+     - set the `--account` option equal to your account name
+     - set the `--mail-type` option equal to ALL and the `--mail-user` option equal to your email address. This will tell the
+       cluster to send you an email when your job starts and finishes. (alternatively, you can comment/delete this line if you don't want this..)
+
 ### To be able to run jobs locally and on remote SLURM cluster:
 
 -------------------------- Local Setup ---------------------------
