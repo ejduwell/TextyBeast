@@ -226,13 +226,21 @@ There are three seperate command-line functions for running jobs locally, on a r
 
 **Running Jobs Locally: textyBeast_localjob**
 
+textyBeast_localjob runs jobs on your local machine. 
+
         textyBeast_localjob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
 
 **Running Jobs on Remote Slurm Cluster: textyBeast_slurmjob**
 
+textyBeast_slurmjob pushes your video data to the slurm cluster specified in the installation procedure via scp, runs the job there, and
+then retrieves the outputs to your local machine.
+
         textyBeast_slurmjob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
 
 **Running Jobs Remotely on Non-Slurm System: textyBeast_remotejob**
+
+textyBeast_slurmjob pushes your video data to the remote machine specified in the installation procedure via scp, runs the job there, and
+then retrieves the outputs to your local machine.
 
         textyBeast_remotejob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
 
