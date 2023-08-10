@@ -181,9 +181,12 @@ Follow one of the three install instructions below based on which set up you pla
      #SBATCH --mail-type=ALL
      #SBATCH --mail-user=eduwell@mcw.edu
      ```
-     - set the `--account` option equal to your account name
-     - set the `--mail-type` option equal to ALL and the `--mail-user` option equal to your email address. This will tell the
-       cluster to send you an email when your job starts and finishes. (alternatively, you can comment/delete this line if you don't want this..)
+   - set the `--account` option equal to your account name
+     
+   - set the `--mail-type` option equal to ALL and the `--mail-user` option equal to your email address. This will tell the
+     cluster to send you an email when your job starts and finishes. (alternatively, you can comment/delete this line if you don't want this..)
+   
+   - save your changes, and you should be good to go ... 
 
 ### To be able to run jobs locally and on remote SLURM cluster:
 
@@ -289,6 +292,8 @@ Follow one of the three install instructions below based on which set up you pla
 
    - set the `--mail-type` option equal to ALL and the `--mail-user` option equal to your email address. This will tell the
      cluster to send you an email when your job starts and finishes. (alternatively, you can comment/delete this line if you don't want this..)
+
+   - save your changes, and you should be good to go ... 
 
 ### To be able to run jobs on a remote machine that is not a SLURM cluster:
    - Same install procedure as for remote SLURM cluster above
