@@ -249,12 +249,19 @@ The general syntax and options for the three functions are identical. Each requi
                 - "vl" : indicates you are running a "video lecture" job. 
                 
                 This mode will first find a minimum set of unique video image frames by running a cross-correlation analysis which essentially 
-                looks for time points with large changes. This step is intended to segment the video into unique frames corresponding to the slides. 
-                MMOCR functions are used to detect, recognize, and transcribe text present in each unique image frame. Image text is clustered 
-                into a human readable order using a clustering routine I developed. Whisper is then used to detect/transcribe text present in the audio 
-                extracted from the video file. Finally, the text detected in image frames and audio are combined into a final output .csv containing the 
-                start/end time of each unique frame, the text scraped from each image frame, and the text scraped from the audio within each corresponding 
-                time window.
+                looks for time points with large changes. This step is intended to segment the video into unique frames corresponding to the 
+                slides. MMOCR functions are used to detect, recognize, and transcribe text present in each unique image frame. Image text is 
+                clustered into a human readable order using a clustering routine I developed. Whisper is then used to detect/transcribe text 
+                present in the audio extracted from the video file. Finally, the text detected in image frames and audio are combined into a 
+                final output .csv containing the start/end time of each unique frame, the text scraped from each image frame, and the text 
+                scraped from the audio within each corresponding time window.
+
+                - "di" : indicates you are running a "speaker diarization" job.
+
+                This mode will first extract the audio from the video file and segment the audio into seperate chunks corresponding to 
+                seperate speakers detected using Pyannote. The audio chunks are then transcribed using Whisper and assembled into a diarized 
+                transcript. Outputs include the diarized transcript text file as well as an html file displaying the the transcript and video. 
+                Clicking on text locations on the html page allows users to jump to the corresponding locations within the video.
         
 
 
