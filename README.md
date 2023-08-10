@@ -269,7 +269,10 @@ The general syntax and options for the three functions are identical. Each requi
                 - "default" : will source the default parameters contained within the file TextyBeast/defaultPars.sh
                 
                 - "yourCustomPars.sh" : You can also create your own Pars.sh file and adjust the parameter values, models, etc. defined
-                inside however you like. To do so, I suggest making a copy of TextyBeast/defaultPars.sh. Give it a unique name, and make sure                   its saved within the base TextyBeast directory. To use this file instead of the default, simply input the name of the file                      instead of "default"
+                inside however you like. To do so, I suggest making a copy of TextyBeast/defaultPars.sh. Give it a unique name, and make sure 
+                its saved within the base TextyBeast directory. To use this file instead of the default, simply input the name of the file 
+                instead of "default"
+                
 ## Notes:
 
 1) Some local scripts depend on jot. This does not appear to come pre-installed on Ubuntu. If you are running an Ubuntu machine and don't have jot installed yet, you will need to run:
