@@ -219,23 +219,44 @@ Follow one of the three install instructions below based on which set up you pla
 
 ## Usage:
 
-### Running Jobs Locally: textyBeast_localjob
 
-General syntax:
+### Functions:
 
-textyBeast_localjob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
+There are three seperate command-line functions for running jobs locally, on a remote slurm cluster, and on a remote machine respectively:
 
-### Running Jobs on Remote Slurm Cluster: textyBeast_slurmjob
+**Running Jobs Locally: textyBeast_localjob**
 
-General syntax:
+        textyBeast_localjob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
 
-textyBeast_slurmjob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
+**Running Jobs on Remote Slurm Cluster: textyBeast_slurmjob**
 
-### Running Jobs Remotely on Non-Slurm System: textyBeast_remotejob
+        textyBeast_slurmjob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
 
-General syntax:
+**Running Jobs Remotely on Non-Slurm System: textyBeast_remotejob**
 
-textyBeast_remotejob full/path/to/input/dir full/path/to/output/dir "jobtype" "parameterFile"
+        textyBeast_remotejob <full/path/to/input/dir> <full/path/to/output/dir> <"jobtype"> <"parameterFile">
+
+### General Syntax:
+
+The general syntax and options for the three functions are identical. Each require four input arguments:
+
+        Input Arguments:
+        
+        1) input directory -- full path to a local directory containing the videos you want to process
+        2) output directory -- full path to a local directory where you want the TextyBeast to save your results
+        3) jobtype -- specifies what type of job you want to run. You can currently choose from one of two options:
+        
+                - "vl" : indicates you are running a "video lecture" job. 
+                
+                This mode will first find a minimum set of unique video image frames by running a cross-correlation analysis which essentially 
+                looks for time points with large changes. This step is intended to segment the video into unique frames corresponding to the slides. 
+                MMOCR functions are used to detect, recognize, and transcribe text present in each unique image frame. Image text is clustered 
+                into a human readable order using a clustering routine I developed. Whisper is then used to detect/transcribe text present in the audio 
+                extracted from the video file. Finally, the text detected in image frames and audio are combined into a final output .csv containing the 
+                start/end time of each unique frame, the text scraped from each image frame, and the text scraped from the audio within each corresponding 
+                time window.
+        
+
 
 ## Notes:
 
