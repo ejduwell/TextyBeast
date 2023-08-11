@@ -59,8 +59,8 @@ This repository can be installed/setup to run jobs locally, remotely (including 
                 3. visit hf.co/settings/tokens to create an access token
         
 
-- If you're having dependency issues with any of the packages listed above, see the notes section below.
-(https://github.com/ejduwell/TextyBeast/blob/main/README.md#notes)
+- If you're having dependency issues with any of the packages listed above, see the  [notes section below](https://github.com/ejduwell/TextyBeast/blob/main/README.md#notes).
+
 
 ## Installation:
 Follow one of the three install instructions below based on which set up you plan to run.
