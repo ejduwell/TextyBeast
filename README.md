@@ -251,11 +251,10 @@ Follow one of the three install instructions below based on which set up you pla
     ```
     ./remoteClstrInstall.sh
     ```
-11. Add local functions to permenant path:
-   - Run:
-   ```
-   ./addFcns2Path.sh
-   ```    
+11. Add local functions to permenant path by running:
+    ```
+    ./addFcns2Path.sh
+    ```    
 
 12. Finally, you will need to make some small edits to the SLURM headers of two files on the cluster to configure them for your SLURM account:
 
