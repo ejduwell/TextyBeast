@@ -460,7 +460,7 @@ The general syntax and options for the three functions are identical. Each requi
         tar xzf nasm.tar.gz cd nasm-*
         Note: Replace nasm-* with the extracted directory name if it's different.
         
-        3) onfigure, compile, and install NASM locally:
+        3) configure, compile, and install NASM locally:
         
         ./configure --prefix=$HOME/nasm_local make make install
 
