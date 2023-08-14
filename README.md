@@ -448,23 +448,59 @@ The general syntax and options for the three functions are identical. Each requi
    # If you don't have sudo privileges,
    # You can install a local copy from source:
    #--------------------------------------
-   # pull local copy to home directory (or wherever you like) and unpack
-   cd ~
-   wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
-   tar xjvf ffmpeg-snapshot.tar.bz2
-   cd ffmpeg
+   # The first time I tried this I got an error indicating I had too old of a nasm copy
+   # I installed a new copy first therefore with: (included this in case others have similar issue)
+   #------------------------------------------------------------------------------------------
+        1) Download the latest NASM source:
 
-   # configure it
-   ./configure --prefix=$HOME/ffmpeg_build
+        curl -O https://www.nasm.us/pub/nasm/releasebuilds/latest/nasm.tar.gz
 
-   # make/install
-   make
-   make install
+        2) Extract the downloaded tarball:
+        
+        tar xzf nasm.tar.gz cd nasm-*
+        Note: Replace nasm-* with the extracted directory name if it's different.
+        
+        3) onfigure, compile, and install NASM locally:
+        
+        ./configure --prefix=$HOME/nasm_local make make install
 
-   # add FFmpeg to your PATH so you can run it without specifying the full path. Add this to your ~/.bashrc or ~/.zshrc or appropriate profile file:
-   export PATH="$HOME/ffmpeg_build/bin:$PATH"
-   source ~/.bashrc
-   #--------------------------------------
+        4) Update PATH to include the local NASM bin directory:
+        
+        You'll want to add the local installation's binary folder to your PATH so the system knows where to find nasm.
+        
+        Add the following line to your ~/.bashrc or ~/.zshrc or the appropriate configuration file for your shell:
+        
+        export PATH=$HOME/nasm_local/bin:$PATH
+        Then, reload your shell configuration:
+
+        source ~/.bashrc # or source ~/.zshrc or the relevant file for your shell
+   #------------------------------------------------------------------------------------------
+   # FFMPEG INSTALL:
+   Preparation: Navigate to your home directory or another directory where you have write permissions.
+
+        cd ~
+        Download FFmpeg Source Using curl:
+        
+        curl -O https://ffmpeg.org/releases/ffmpeg-4.4.tar.bz2
+        Extract the Archive:
+        
+        tar xjf ffmpeg-4.4.tar.bz2
+        cd ffmpeg-4.4
+        Configure and Compile:
+        
+        We'll configure FFmpeg for a local install without additional external libraries and specify a prefix so the binaries get installed in your home directory.
+        
+        ./configure --prefix=$HOME/ffmpeg_local
+        make
+        make install
+        Updating Your PATH: To easily use the FFmpeg binaries you've just compiled, you'll want to add them to your PATH.
+        
+        Add this to your ~/.bashrc or ~/.zshrc or whatever shell configuration file you use:
+        
+        export PATH=$HOME/ffmpeg_local/bin:$PATH
+        Source your shell configuration file:
+        
+        source ~/.bashrc # or source ~/.zshrc or the relevant file for your shell
    ```
 3) This package requires both python3.8 and python3.9. If you don't have both of these installed you will need to do so:
    ```
