@@ -475,31 +475,29 @@ The general syntax and options for the three functions are identical. Each requi
 
         source ~/.bashrc # or source ~/.zshrc or the relevant file for your shell
    #------------------------------------------------------------------------------------------
-   # FFMPEG INSTALL:
-   Preparation: Navigate to your home directory or another directory where you have write permissions.
-
+        # FFMPEG INSTALL:
+        Preparation: Navigate to your home directory or another directory where you have write permissions.
         cd ~
+   
         Download FFmpeg Source Using curl:
-        
         curl -O https://ffmpeg.org/releases/ffmpeg-4.4.tar.bz2
+   
         Extract the Archive:
-        
         tar xjf ffmpeg-4.4.tar.bz2
         cd ffmpeg-4.4
+
         Configure and Compile:
         
-        We'll configure FFmpeg for a local install without additional external libraries and specify a prefix so the binaries get installed in your home directory.
-        
+        We'll configure FFmpeg for a local install without additional external libraries and specify a prefix so the binaries get installed in your home directory:
         ./configure --prefix=$HOME/ffmpeg_local
         make
         make install
+
         Updating Your PATH: To easily use the FFmpeg binaries you've just compiled, you'll want to add them to your PATH.
-        
         Add this to your ~/.bashrc or ~/.zshrc or whatever shell configuration file you use:
-        
         export PATH=$HOME/ffmpeg_local/bin:$PATH
+   
         Source your shell configuration file:
-        
         source ~/.bashrc # or source ~/.zshrc or the relevant file for your shell
    ```
 3) This package requires both python3.8 and python3.9. If you don't have both of these installed you will need to do so:
