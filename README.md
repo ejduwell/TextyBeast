@@ -95,7 +95,7 @@ Follow one of the three install instructions below based on which set up you pla
 6. Add local functions to permenant path:
    - Run:
    ```
-   cd TextyBeastLocal
+   cd textyBeastLocal
    chmod +wrx *
    ./addFcns2Path.sh
    ```
