@@ -19,11 +19,11 @@ mkdir output
 cd envs
 
 # list of environments
-envs=("ocr" "whspr" "pyannote")
+#envs=("ocr" "whspr" "pyannote")
 
 # For development: if you want to just install one or a subset of the envs to test,
 # paste them in below, and uncomment it/comment the original above....
-#envs=("pyannote") # temp line for expediency during development... remove later..
+envs=("gui") # temp line for expediency during development... remove later..
 
 for env in ${envs[@]}; do
     # Save starting directory location
@@ -54,6 +54,15 @@ for env in ${envs[@]}; do
     echo ""
     echo "------------------------------------------------------"
     echo "------ BUILDING VIRTUAL ENVIRONMENT FOR WHISPER ------"
+    echo "------------------------------------------------------"
+    echo ""
+    virtualenv --python=python3.9 env
+    fi
+    
+    if [[ $env == "gui" ]]; then
+    echo ""
+    echo "------------------------------------------------------"
+    echo "------ BUILDING VIRTUAL ENVIRONMENT FOR THE GUI ------"
     echo "------------------------------------------------------"
     echo ""
     virtualenv --python=python3.9 env
@@ -109,6 +118,11 @@ for env in ${envs[@]}; do
             pip install pydub
             pip install moviepy
         fi
+        
+        if [[ $env == "gui" ]]; then
+            pip install tk
+        fi
+        
         # install jupyter notebooks for running install checker notebook
         pip install jupyter
     fi
@@ -118,7 +132,12 @@ for env in ${envs[@]}; do
     if [[ $env == "ocr" ]]; then
     echo ""
     else
+    
+    # install requirements.txt if this is not the gui pass..
+    if [[ $env != "gui" ]]; then
     pip install -r $BASEDIR/install/$env/requirements.txt
+    fi
+    
     fi
 
     # check if there is a pythonCode directory for this environment
@@ -154,7 +173,6 @@ for env in ${envs[@]}; do
 	# If this is the pyannote pass...
 	if [[ $env == "pyannote" ]]; then
 	cp $directory/* $BASEDIR/envs/$env/env/lib/python3.8/site-packages/
-	
 	fi
 
 	# if this is the whspr pass...
@@ -162,7 +180,12 @@ for env in ${envs[@]}; do
 	cp $directory/* $BASEDIR/envs/$env/env/lib/python3.9/site-packages/
 	fi
 
+	# if this is the gui pass...
+	if [[ $env == "gui" ]]; then
+	cp $directory/* $BASEDIR/envs/$env/env/lib/python3.9/site-packages/
 	fi
+
+       fi
 
     else
         echo "No pythonCode directory present for this environment. Continuing on.. "
