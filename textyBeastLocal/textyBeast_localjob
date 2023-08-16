@@ -158,7 +158,7 @@ if [[ $jobType == "vl" ]]; then
 echo ""
 echo "Running Video Lecture Job..."
 cd $BASEDIR
-./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile > $remoteDir/output/$FILE.out
+./textyBeast_v1_local.sh $videoFile $finSignal $dirLocal $parsFile $BASEDIR > $remoteDir/output/$FILE.out
 fi
 
 if [[ $jobType == "di" ]]; then
