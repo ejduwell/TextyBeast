@@ -129,6 +129,8 @@ echo "x_merge: $ClustThr_factor"
 echo "det_ckpt_in: $det_ckpt_in"
 echo "recog_ckpt_in: $recog_ckpt_in"
 echo "whspModel: $whspModel"
+echo "maxSpeakers: = $maxSpeakers"
+
 #-------------------------------------------------------------------------------
 
 
@@ -174,7 +176,7 @@ echo "======================================================="
 # Run Pyannote/Whisper script.. 
 #srun --nodes=1 --ntasks=1 python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
 #python ./lib/python3.9/site-packages/wsprPyannoteTest1.py
-python ./lib/python3.8/site-packages/wsprPyannote2.py $videoFile $outDirBase $outDirSub $tokenIn $BASEDIR $whspModel
+python ./lib/python3.8/site-packages/wsprPyannote2.py $videoFile $outDirBase $outDirSub $tokenIn $BASEDIR $whspModel $maxSpeakers
 
 echo "======================================================="
 echo "Pyannote/Whisper Pipeline Completed ..."
