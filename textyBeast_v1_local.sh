@@ -138,14 +138,13 @@ whsprOut_dir=$outDir/out_dir/audio_speech_dta
 #-------------------------------------------------------------------------------
 # SOURCE PARS FILE
 #-------------------------------------------------------------------------------
-
 if [[ $parsFile == "default" ]]; then
 echo ""
 echo "Sourcing Default Parameters:"
-#curDir=$(pwd)
-#cd $BASEDIR
-source $homeDir/defaultPars.sh
-#cd $curDir
+curDir=$(pwd)
+cd $BASEDIR
+source defaultPars.sh
+cd $curDir
 
 else
 echo ""
@@ -165,6 +164,7 @@ echo "x_merge: $ClustThr_factor"
 echo "det_ckpt_in: $det_ckpt_in"
 echo "recog_ckpt_in: $recog_ckpt_in"
 echo "whspModel: $whspModel"
+echo "maxSpeakers: = $maxSpeakers"
 #-------------------------------------------------------------------------------
 # ====================================================
 
@@ -334,20 +334,16 @@ logfile=$(basename "$videoFile").out
 cp $BASEDIR/output/$logfile $outBase/$finSignal/$dateTime-dtaScrape_$logfile #move log file into "end-signal" directory..
 rm -rf $outDir #get rid of original/unzipped data dir..
 
-#Enter final output dir and give the signal that we're all done...
+#Enter final output dir and copy contents to final output directory...
 cd $outBase/$finSignal/ #enter final output dir..
-
-sig="done"
-echo $sig > DONE
-# Go back to start dir..
-cd $strtDir
+mv * $outDirFinal
 
 # Clean up output directory
 cd $BASEDIR/output/
-rm $logfile
-
+rm -rf $finSignal #remove temporary dir in output now that its contents have been moved
 # Clean up input directory
 cd $BASEDIR/input
 rm $video # remove video from input
 
+# Go back to start dir..
 cd $strtDir
