@@ -19,11 +19,11 @@ mkdir output
 cd envs
 
 # list of environments
-#envs=("ocr" "whspr" "pyannote")
+envs=("ocr", "whspr", "pyannote", "gui")
 
 # For development: if you want to just install one or a subset of the envs to test,
 # paste them in below, and uncomment it/comment the original above....
-envs=("gui") # temp line for expediency during development... remove later..
+#envs=("gui") # temp line for expediency during development... remove later..
 
 for env in ${envs[@]}; do
     # Save starting directory location
@@ -121,6 +121,7 @@ for env in ${envs[@]}; do
         
         if [[ $env == "gui" ]]; then
             pip install tk
+            pip install pillow
         fi
         
         # install jupyter notebooks for running install checker notebook
