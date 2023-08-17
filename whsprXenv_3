@@ -52,12 +52,12 @@ deactivate
 
 #CREATE THE FINISHED SIGNAL
 # ====================================================
-echo ""
-echo "Generating 'Finished' Signal:"
-echo $finSignal
-echo ""
-echo "in this directory:"
-echo $(pwd)
-echo ""
-sig="done"
-echo $sig > $finSignal
+#echo ""
+#echo "Generating 'Finished' Signal:"
+#echo $finSignal
+#echo ""
+#echo "in this directory:"
+#echo $(pwd)
+#echo ""
+#sig="done"
+#echo $sig > $finSignal
