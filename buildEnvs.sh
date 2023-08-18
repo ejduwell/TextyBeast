@@ -19,7 +19,7 @@ mkdir output
 cd envs
 
 # list of environments
-envs=("ocr", "whspr", "pyannote", "gui")
+envs=("ocr" "whspr" "pyannote" "gui")
 
 # For development: if you want to just install one or a subset of the envs to test,
 # paste them in below, and uncomment it/comment the original above....
