@@ -12,10 +12,11 @@ import signal
 
 # Get input args
 baseDir = sys.argv[1];
-
 clstrPath = sys.argv[2];
 clstrUsr= sys.argv[3];
 clstrHost = sys.argv[4];
+
+#Build Command to export path/username/hostname info for cluster..
 global xprtCmd
 xprtCmd= "export clstrPath="+clstrPath+"; "+"export clstrUsr="+clstrUsr+"; "+"export clstrHost="+clstrHost+"; "
 print("")
