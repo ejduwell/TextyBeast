@@ -12,6 +12,11 @@ cd ..
 BASEDIR=$(pwd)
 cd $SCRIPTDIR
 
+# save cluster variables to local variables for exporting later in venv..
+clstrPath=$clstrPath
+clstrUsr=$clstrUsr
+clstrHost=$clstrHost
+
 # save native path..
 txtyBstLclPath=$BASEDIR/textyBeastLocal
 
@@ -20,15 +25,67 @@ txtyBstLclPath=$BASEDIR/textyBeastLocal
 # activate gui env
 source  $BASEDIR/envs/gui/env/bin/activate
 
+
 # ensure txtyBstLclPath path is available
 export PATH="$txtyBstLclPath:$PATH"
 
-# run command to open gui:
+# ensure cluster variables are available..
+export clstrPath=$clstrPath
+echo "export clstrPath=$clstrPath"
+export clstrUsr=$clstrUsr
+echo "export clstrUsr=$clstrUsr"
+export clstrHost=$clstrHost
+echo "export clstrHost=$clstrHost"
+
+
+
+# Function to run and monitor the program
+run_and_monitor() {
+    local program="$1"
+
+    # Check for the existence of the sentinel file
+    if [[ -f "terminate_sentinel.txt" ]]; then
+        echo "Termination sentinel found. Exiting without restarting."
+        rm -f "terminate_sentinel.txt"  # Remove the sentinel file for future runs
+        exit 0
+    fi
+
+    # Start the program in the background
+    $program &
+    local pid=$!
+
+    # Loop to check if the program is still running
+    while true; do
+        # Check if the PID still exists in the process list
+        if ! ps -p $pid > /dev/null; then
+            echo "Program $program ($pid) terminated. Restarting..."
+            return
+        fi
+
+        # Sleep for a while before checking again
+        sleep 5
+    done
+}
+
 echo "Starting the textyBeast GUI..."
-echo ""
-python3 $BASEDIR/envs/gui/env/lib/python3.9/site-packages/textyBeastGui_v13.py $BASEDIR
+
+# The program/command you want to run and monitor
+# The program/command you want to run and monitor
+PROGRAM="python3 $BASEDIR/envs/gui/env/lib/python3.9/site-packages/textyBeastGui_v13.py $BASEDIR $clstrPath $clstrUsr $clstrHost"
+
+while true; do
+    run_and_monitor "$PROGRAM"
+done
+
 echo "Closing the textyBeast GUI..."
-echo ""
+
+
+# run command to open gui:
+#echo "Starting the textyBeast GUI..."
+#echo ""
+#python3 $BASEDIR/envs/gui/env/lib/python3.9/site-packages/textyBeastGui_v13.py $BASEDIR
+#echo "Closing the textyBeast GUI..."
+#echo ""
 
 #return to starting directory
 cd $startDir
