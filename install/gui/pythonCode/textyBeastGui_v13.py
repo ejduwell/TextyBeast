@@ -8,21 +8,81 @@ import threading
 import os
 import socket
 import sys
+import signal
 
 # Get input args
 baseDir = sys.argv[1];
 
+clstrPath = sys.argv[2];
+clstrUsr= sys.argv[3];
+clstrHost = sys.argv[4];
+global xprtCmd
+xprtCmd= "export clstrPath="+clstrPath+"; "+"export clstrUsr="+clstrUsr+"; "+"export clstrHost="+clstrHost+"; "
+print("")
+print("This is xprtCmd:")
+print(xprtCmd)
+print("")
 # Set Global Variables:
 # ----------------------------------------------------------------------------------------
 callCountr=0 # initialize for counting calls in dbMode..
 drifting_active = False # global variable to control the drifting animation loop
 dbMode=1 # if = 1: turnos on debug mode to display call db printouts on command line...
+global process
+process = None
+global killProcess
+killProcess = 0
+global exit_thread_flag
+exit_thread_flag = threading.Event()
 # ----------------------------------------------------------------------------------------
 
 
 # Define Functions
 # ----------------------------------------------------------------------------------------
 
+def close_window():
+    global dbMode
+    if dbMode == 1:
+        global callCountr
+        callCountr=callCountr+1
+        print(f"Call # {callCountr} : Running close_window")
+    
+    # Create a sentinel file
+    with open("terminate_sentinel.txt", "w") as f:
+        f.write("Terminate without restart.")
+    
+    # Exit the program
+    root.quit()
+
+
+def kill_process():
+    global dbMode
+    if dbMode == 1:
+        global callCountr
+        callCountr=callCountr+1
+        print(f"Call # {callCountr} : Running kill_process")
+    
+    global process, exit_thread_flag
+    if process:
+        try:
+                
+            os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+            process.kill()
+            console.insert(tk.END, "Process terminated\n")
+            
+            #process.terminate()
+            #process.kill()
+            # Signal the thread to exit
+            exit_thread_flag.set()
+            hide_console_input()
+            prompt = get_prompt()
+            console.insert(tk.END, prompt)
+            stop_drifting()
+            end_drifting_banner()
+            
+        except Exception as e:
+            console.insert(tk.END, f"Failed to terminate process: {e}\n")
+
+    
 def allow_highlight(event):
     event.widget.config(state=tk.NORMAL)
     event.widget.after(100, lambda: event.widget.config(state=tk.DISABLED))
@@ -133,13 +193,14 @@ def get_system_path():
         print(f"Call # {callCountr} : Running get_system_path")
     
     try:
-        result = subprocess.Popen("bash -l -c 'echo $PATH'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.Popen("exec " +"bash -l -c 'echo $PATH'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         stdout, _ = result.communicate()
         return stdout.strip()
     except Exception:
         return None
 
 def read_process_output(process, console):
+    global exit_thread_flag
     global dbMode
     if dbMode == 1:
         global callCountr
@@ -159,6 +220,16 @@ def read_process_output(process, console):
         if output:
             console.insert(tk.END, output)
             console.see(tk.END)  # Scroll to the end
+        
+        #global killProcess
+        #if killProcess==1:
+        #    end_drifting_banner()
+        #    hide_console_input()
+        #    stop_drifting()
+        #    drifting_active = False    
+        # Check if the exit flag is set
+        if exit_thread_flag.is_set():
+            break
     process.poll()
 
 def send_input_to_process(process, input_data):
@@ -242,6 +313,8 @@ def update_text_positions(event):
 
 def run_command():
     global dbMode
+    global exit_thread_flag
+    global xprtCmd
     if dbMode == 1:
         global callCountr
         callCountr=callCountr+1
@@ -262,9 +335,11 @@ def run_command():
         console_visible = True
 
     start_drifting_banner()
-
     show_console_input()  # Always show the input field when running a command
 
+    
+    
+    
     # Build command from dropdown/button inputs...
     program = program_var.get()
     jobtype = jobtype_var.get()
@@ -275,8 +350,15 @@ def run_command():
     try:
         # assemble the rest pf the command, set up process piping details for when command is run/output piped back to console
         bash_command = f"bash -c \"{command}\""
-        env = {"PATH": system_path} if system_path else None
+        bash_command = xprtCmd+bash_command
         
+        #env = {"PATH": system_path} if system_path else None
+        
+        env = os.environ.copy()  # Start with the current environment
+        if system_path:
+            env["PATH"] = system_path
+        
+        global process
         process = subprocess.Popen(
             bash_command,
             shell=True,
@@ -289,14 +371,23 @@ def run_command():
             env=env
         )
         
+        
+        #global current_process
+        #process = process
+        
+        #current_process = process
+        
+
         # run the sub-process set up above in the native bash shell
         # on a seperate thread by running the read_process_output() function defined above.
         # read_process_output will run the bash subprocess and handle the displaying of the piped output to the console
         # terminal emulator..
         # 
+        exit_thread_flag.clear()
         thread = threading.Thread(target=read_process_output, args=(process, console))
         thread.daemon = True
         thread.start()
+        #thread.run()
          
         # send user input to actual bash session after they hit henter
         # if input was required/entered in the text input..
@@ -316,6 +407,8 @@ def run_command():
     except Exception as e:
         console.insert(tk.END, f"Failed to run command: {e}\n")
 
+    
+        
 def update_canvas_text(*args):
     global dbMode
     if dbMode == 1:
@@ -364,7 +457,6 @@ def on_canvas_resized(event):
     
     
     
-    
     # Then dropdown for function
     canvas.coords(dropdown_window, (canvas_width / 4)*1, canvas_height * 4.5 / sections)
     canvas.coords(dropdown_label, (canvas_width / 4)*1, canvas_height * 4.5 / sections - 40)
@@ -385,7 +477,12 @@ def on_canvas_resized(event):
     # Then RUN button
     canvas.coords(run_btn, canvas_width / 2, canvas_height * 5.5 / sections)
     
-
+    # The Kill Button
+    canvas.coords(kill_button, canvas_width / 2, canvas_height * 5.5 / sections +35)
+    
+    # The Close Button
+    canvas.coords(close_button,50,25)
+    
     # Adjust the position of the READY and drifting text to be just above the console.
     #console_y = canvas_height - console.winfo_height()  # y-coordinate of the top edge of the console
     #text_y = console_y - 30  # Positioned 30 pixels above the top edge of the console
@@ -699,5 +796,36 @@ drifting_text = canvas.create_text(-100, 0, text="JOB RUNNING...", fill="#d959b5
 # -------------------------------------------
 ready_text = canvas.create_text(50, 20, text="----- READY -----", fill="#1bde42", font=("Courier", 16, "bold"), state=tk.NORMAL)
 # -------------------------------------------
+
+# Create a frame to act as a border
+border_frame_kb = tk.Frame(canvas, background='#222e40', bd=0)
+button = tk.Button(
+    border_frame_kb,
+    text="Kill Current Process...",
+    command=kill_process,
+    bg='#07192e',
+    fg='red',
+    activebackground="#07192e",
+    activeforeground="#d959b5",
+    borderwidth=0 # No border for the inner button
+)
+button.pack(padx=4, pady=4)  # This padding simulates the border width
+kill_button = canvas.create_window(300, 260, window=border_frame_kb)
+
+
+# Create a frame to act as a border
+border_frame_close = tk.Frame(canvas, background='#222e40', bd=0)
+button = tk.Button(
+    border_frame_close,
+    text="CLOSE",
+    command=close_window,
+    bg='#07192e',
+    fg='red',
+    activebackground="#07192e",
+    activeforeground="#d959b5",
+    borderwidth=0 # No border for the inner button
+)
+button.pack(padx=4, pady=4)  # This padding simulates the border width
+close_button = canvas.create_window(50, 50, window=border_frame_close)
 
 root.mainloop()
