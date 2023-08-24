@@ -2,27 +2,38 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-from tkinter import filedialog, ttk, scrolledtext
+from tkinter import filedialog, ttk, scrolledtext, messagebox
 import subprocess
 import threading
 import os
 import socket
 import sys
 import signal
-
+#import cv2
+#import pygame
+#from moviepy.editor import VideoFileClip
+#import pygame
+from pytube import YouTube
+#import vlc
+import random
+import shutil
+import glob
 # Get input args
+# ----------------------------------------------------------------------------------------
 baseDir = sys.argv[1];
 clstrPath = sys.argv[2];
 clstrUsr= sys.argv[3];
 clstrHost = sys.argv[4];
 
 #Build Command to export path/username/hostname info for cluster..
+# ----------------------------------------------------------------------------------------
 global xprtCmd
 xprtCmd= "export clstrPath="+clstrPath+"; "+"export clstrUsr="+clstrUsr+"; "+"export clstrHost="+clstrHost+"; "
 print("")
 print("This is xprtCmd:")
 print(xprtCmd)
 print("")
+
 # Set Global Variables:
 # ----------------------------------------------------------------------------------------
 callCountr=0 # initialize for counting calls in dbMode..
@@ -35,10 +46,156 @@ killProcess = 0
 global exit_thread_flag
 exit_thread_flag = threading.Event()
 # ----------------------------------------------------------------------------------------
+global videoPath
+videoPath='/Users/eduwell/GitHub/videos/eduwellDissertationClip.mp4'
+ytURLs = ['https://www.youtube.com/watch?v=scD4_ZVDD-8&ab_channel=MontyPython',
+          'https://www.youtube.com/watch?v=l9SqQNgDrgg&ab_channel=MontyPython',
+          'https://www.youtube.com/watch?v=ohDB5gbtaEQ&ab_channel=unmusedtails',
+          'https://www.youtube.com/watch?v=LFrdqQZ8FFc&ab_channel=TylerBird',
+          'https://www.youtube.com/watch?v=ycKNt0MhTkk&ab_channel=Weidmoo',
+          'https://www.youtube.com/watch?v=B3KBuQHHKx0&ab_channel=It%27sSam%21',
+          'https://www.youtube.com/watch?v=imhrDrE4-mI&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&ab_channel=KevinSharrock',
+          'https://www.youtube.com/watch?v=vZw35VUBdzo&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=5&ab_channel=Cinematheia',
+          'https://www.youtube.com/watch?v=t2c-X8HiBng&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=17&ab_channel=Browningate',
+          'https://www.youtube.com/watch?v=qgSzGIkFq2A&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=28&ab_channel=NavajoNIJ',
+          'https://www.youtube.com/watch?v=SJUhlRoBL8M&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=40&ab_channel=Melonhead622',
+          'https://www.youtube.com/watch?v=pfRdur8GLBM&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=7&ab_channel=ChristiaanJanssens',
+          'https://www.youtube.com/watch?v=0e2kaQqxmQ0&list=PLhboEWcuNB1__DiH8Z5MLYigS-KVxWktS&index=49&ab_channel=TheFilmClipBaron',
+          'https://www.youtube.com/watch?v=Ut116mBuPpg',
+          'https://www.youtube.com/watch?v=XbY8MH1TpEw',
+          'https://www.youtube.com/watch?v=Xm08nJ4opac',
+          'https://www.youtube.com/watch?v=ZZ5LpwO-An4',
+          'https://www.youtube.com/watch?v=U9t-slLl30E',
+          'https://www.youtube.com/watch?v=KaqC5FnvAEc',
+          'https://www.youtube.com/watch?v=oavMtUWDBTM',
+          'https://www.youtube.com/watch?v=Tx1XIm6q4r4',
+          'https://www.youtube.com/watch?v=uE-1RPDqJAY',
+          'https://www.youtube.com/watch?v=BBGEG21CGo0',
+          'https://www.youtube.com/watch?v=QH2-TGUlwu4',
+          'https://www.youtube.com/watch?v=0RpdPzJgaBw',
+          'https://www.youtube.com/watch?v=u8ccGjar4Es',
+          'https://www.youtube.com/watch?v=cGc_NfiTxng',
+          'https://www.youtube.com/watch?v=jofNR_WkoCE',
+          'https://www.youtube.com/watch?v=HHFuTpVvRCI',
+          'https://www.youtube.com/watch?v=HhGuXCuDb1U',
+          'https://www.youtube.com/watch?v=ePsW0wEtKt8&list=PLdcjoWiPNS3MhBeEt5qs6Akcwg8810Rx-&index=7',
+          'https://www.youtube.com/watch?v=yoEezZD71sc&list=PLdcjoWiPNS3MyRksQQX__hpicPXjSfnn6',
+          'https://www.youtube.com/watch?v=kr1I3mBojc0',
+          'https://www.youtube.com/watch?v=CsGYh8AacgY',
+          'https://www.youtube.com/watch?v=ExukCRD7gN0',
+          'https://www.youtube.com/watch?v=djK_ucSYpaw',
+          'https://www.youtube.com/shorts/QQNL83fhWJU',
+          'https://www.youtube.com/watch?v=LDU_Txk06tM',
+          'https://www.youtube.com/watch?v=EQ1HKCYJM5U',
+          'https://www.youtube.com/watch?v=0EqSXDwTq6U',
+          'https://www.youtube.com/watch?v=o0u4M6vppCI',
+          'https://www.youtube.com/watch?v=8Gv0H-vPoDc',
+          'https://www.youtube.com/watch?v=-UYgORr5Qhg',
+          'https://www.youtube.com/watch?v=J---aiyznGQ',
+          'https://www.youtube.com/watch?v=yBLdQ1a4-JI',
+          'https://www.youtube.com/watch?v=EIyixC9NsLI',
+          'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          'https://www.youtube.com/watch?v=mfhBM_Yay6w',
+          'https://www.youtube.com/watch?v=HrzY_HF-Znw']
 
+
+tmpPath=baseDir+"/tmp"
+
+isExist = os.path.exists(tmpPath)
+if not isExist:
+   # Create a new directory because it does not exist
+   os.mkdir(tmpPath)
 
 # Define Functions
 # ----------------------------------------------------------------------------------------
+def get_random_file(dir_path):
+    """
+    Get a random file from the specified directory.
+    
+    Args:
+    - dir_path (str): Path to the directory.
+    
+    Returns:
+    - str: Path to the random file.
+    """
+    files = [f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
+    if not files:  # No files in directory
+        return None
+    return os.path.join(dir_path, random.choice(files))
+
+def getYTvideo(ytURL):
+    global baseDir
+    global videoPath
+    global tmpPath
+    subprocess.run(["python", baseDir+"/envs/gui/env/lib/python3.9/site-packages/"+"ytDL.py", ytURL, tmpPath])
+    
+def play_video():
+    global baseDir
+    global videoPath
+    global tmpPath
+    global ytURLs
+    # video_path = videoPath
+
+    # url=ytURLs[0]
+    url = random.choice(ytURLs)
+    getYTvideo(url)
+
+    # grab latest file (one we just downloaded..)
+    list_of_files = glob.glob(tmpPath+'/*') # * means all if need specific format then *.csv
+    latest_file = max(list_of_files, key=os.path.getctime)
+    video_path=latest_file
+    #video_path = get_random_file(tmpPath)
+    try:
+        process = subprocess.Popen(["python", baseDir+"/envs/gui/env/lib/python3.9/site-packages/"+"play_video.py", video_path])
+        process.communicate()  # Wait for the process to finish
+        if process.returncode != 0:
+            print(f"Video player exited with code {process.returncode}.")
+    except Exception as e:
+        print("Error while playing the video:", str(e))
+    os.remove(video_path)
+    
+def open_amusement_portal():
+    amusement_window = tk.Toplevel(root)
+    amusement_window.title("Amusement Portal")
+    amusement_window.geometry("640x480")
+
+    # General Color Stuff:
+    bgClr="#091c30"
+    btnClr="#292b45"
+    btnClrActive="#07192e"
+    amusement_window.configure(bg=bgClr)
+    canvas2 = tk.Canvas(amusement_window, bg=bgClr)
+    
+    # Configure ttk styles
+    # -------------------------------------------------------------------
+    style = ttk.Style()
+    style.theme_use('clam')
+
+    # normal text buttons:
+    # Disable the default button focus background change
+    style.configure('Custom.TButton',
+                    background=btnClr,
+                    foreground='#1bde42',
+                    borderwidth=4,
+                    padding=2,
+                    relief='raised',
+                    highlightbackground='red')
+
+    style.map('Custom.TButton',
+              background=[('active', btnClrActive),
+                          ('!active', btnClr)],
+              foreground=[('active', '#d959b5'),
+                          ('!active', '#1bde42')],
+              )
+    play_vid_button = ttk.Button(amusement_window, text="Play a Random Silly Video ...", command=play_video, style="Custom.TButton")
+    play_vid_button.pack(pady=10)
+
+    close_button = ttk.Button(amusement_window, text="I am now sufficiently amused. Please close this window ...", command=amusement_window.destroy, style="Custom.TButton")
+    close_button.pack(pady=10)
+    
+def close_video_window(video_window):
+    video_window.destroy()
+
 
 def close_window():
     global dbMode
@@ -50,7 +207,10 @@ def close_window():
     # Create a sentinel file
     with open("terminate_sentinel.txt", "w") as f:
         f.write("Terminate without restart.")
-    
+
+    # delete the tmp dir...
+    shutil.rmtree(tmpPath)
+
     # Exit the program
     root.quit()
 
@@ -90,11 +250,12 @@ def allow_highlight(event):
     
 def configure_dropdown_menu(dropdown, bg_color, fg_color, activebg, activefg):
     # Configure the dropdown menu appearance
-    dropdown["menu"].config(bg=bg_color,fg=fg_color, activebackground=activebg, activeforeground=activefg)
+    dropdown['menu'].config(bg=bg_color,fg=fg_color, activebackground=activebg, activeforeground=activefg)
     
-    for item in dropdown["menu"].winfo_children():
+    for item in dropdown['menu'].winfo_children():
         item.configure(background=bg_color, foreground=fg_color, activebackground=activebg, activeforeground=activefg)
 
+    return dropdown
 
 def create_terminal(canvas):
     terminal = tk.Text(canvas, bg="#07192e", fg="#1bde42", font=("Courier", 10), width=75, height=22)
@@ -373,11 +534,6 @@ def run_command():
         )
         
         
-        #global current_process
-        #process = process
-        
-        #current_process = process
-        
 
         # run the sub-process set up above in the native bash shell
         # on a seperate thread by running the read_process_output() function defined above.
@@ -451,38 +607,42 @@ def on_canvas_resized(event):
     
     # The Drifting "Job Running" text...
     #canvas.coords(drifting_text,canvas_width / 2, 10)
-    canvas.coords(drifting_text, canvas_width / 2, canvas_height * 2 / sections - 190)
+    canvas.coords(drifting_text, canvas_width / 2, canvas_height * 1 / sections - 25)
+
     # Ready Text..
     #canvas.coords(ready_text, canvas_width / 2, 10)console
-    canvas.coords(ready_text, canvas_width / 2, canvas_height * 2 / sections- 190)
+    canvas.coords(ready_text, canvas_width / 2, canvas_height * 1 / sections - 25)
     
     
     
     # Then dropdown for function
-    canvas.coords(dropdown_window, (canvas_width / 4)*1, canvas_height * 4.5 / sections)
-    canvas.coords(dropdown_label, (canvas_width / 4)*1, canvas_height * 4.5 / sections - 40)
+    canvas.coords(dropdown_window, (canvas_width / 4)*1, canvas_height * 4.25 / sections)
+    canvas.coords(dropdown_label, (canvas_width / 4)*1, canvas_height * 4.25 / sections - 40)
     # Then dropdown for jobtype
-    canvas.coords(dropdown_jobtype_window, (canvas_width / 4)*3, canvas_height * 4.5 / sections)
-    canvas.coords(jobtype_dropdown_label, (canvas_width / 4)*3, canvas_height * 4.5 / sections - 40)
+    canvas.coords(dropdown_jobtype_window, (canvas_width / 4)*3, canvas_height * 4.25 / sections)
+    canvas.coords(jobtype_dropdown_label, (canvas_width / 4)*3, canvas_height * 4.25 / sections - 40)
     
     # Then button for input dir
-    canvas.coords(select_input_btn, (canvas_width / 4)*1, canvas_height * 5 / sections)
-    canvas.coords(input_dir_label, (canvas_width / 4)*1, canvas_height * 5 / sections + 25)
+    canvas.coords(select_input_btn, (canvas_width / 4)*1, canvas_height * 4.75 / sections)
+    canvas.coords(input_dir_label, (canvas_width / 4)*1, canvas_height * 4.75 / sections + 25)
     # Then button for output dir
-    canvas.coords(select_output_btn, (canvas_width / 4)*2, canvas_height * 5 / sections)
-    canvas.coords(output_dir_label, (canvas_width / 4)*2, canvas_height * 5 / sections + 25)
+    canvas.coords(select_output_btn, (canvas_width / 4)*2, canvas_height * 4.75 / sections)
+    canvas.coords(output_dir_label, (canvas_width / 4)*2, canvas_height * 4.75 / sections + 25)
     # Then button for par file
-    canvas.coords(select_param_btn, (canvas_width / 4)*3, canvas_height * 5 / sections)
-    canvas.coords(param_file_label, (canvas_width / 4)*3, canvas_height * 5 / sections + 25)
+    canvas.coords(select_param_btn, (canvas_width / 4)*3, canvas_height * 4.75 / sections)
+    canvas.coords(param_file_label, (canvas_width / 4)*3, canvas_height * 4.75 / sections + 25)
     
     # Then RUN button
-    canvas.coords(run_btn, canvas_width / 2, canvas_height * 5.5 / sections)
+    canvas.coords(run_btn, canvas_width / 2, canvas_height * 5.35 / sections - 5)
     
     # The Kill Button
-    canvas.coords(kill_button, canvas_width / 2, canvas_height * 5.5 / sections +35)
+    canvas.coords(kill_button, canvas_width / 2, canvas_height * 5.35 / sections +30)
     
     # The Close Button
-    canvas.coords(close_button,50,25)
+    canvas.coords(close_button, 75, 25)
+
+
+    canvas.coords(open_btn,canvas_width - 75,25)
     
     # Adjust the position of the READY and drifting text to be just above the console.
     #console_y = canvas_height - console.winfo_height()  # y-coordinate of the top edge of the console
@@ -567,20 +727,28 @@ def stop_drifting():
     drift = False
 # ----------------------------------------------------------------------------------------
 
+# General Color Stuff:
+bgClr="#091c30"
+btnClr="#292b45"
+btnClrActive="#07192e"
+
+primTxtClr="#1bde42"
+secTxtClr="#d959b5"
+
 # root stuff
 root = tk.Tk()
 root.title("TextyBeast Job Runner")
 root.geometry("800x1000")
-root.configure(bg="#091c30")
-canvas = tk.Canvas(root, bg="#091c30")
+root.configure(bg=bgClr)
+canvas = tk.Canvas(root, bg=bgClr)
 #canvas.pack(pady=20, padx=20)
 
 # general canvas stuff?
 canvas.pack(fill=tk.BOTH, expand=True)
 canvas.bind("<Configure>", on_canvas_resized)
 
-style = ttk.Style()
-style.configure("TOptionMenu", background='#ccc')
+#style = ttk.Style()
+#style.configure("TOptionMenu", background=btnClr)
 
 
 # Create the terminal banner header and add it to the canvas
@@ -589,44 +757,46 @@ terminalHeader = canvas.create_window(325, 0, anchor=tk.CENTER, window=terminal)
 
 
 # Choose Function/Program Dropdown
-# -------------------------------------------
 # make dropdown label 
 dropdown_label = canvas.create_text(300, 40, text="Choose a Function:", anchor=tk.N, fill="#1bde42", font=("Courier", 12, "bold"))
 
-# default/initial option
-#program_var = tk.StringVar(value="Select...")
-# Set of functions/programs
-#programs = ["Select...", "textyBeast_localjob", "textyBeast_slurmjob", "textyBeast_remotejob"]
-# create dropdown
-#dropdown = tk.OptionMenu(root, program_var, *programs)
-# create canvas window and set coordinates/set anchor setting
-#dropdown_window = canvas.create_window(300, 85, window=dropdown, anchor=tk.CENTER)
+# Set the theme to clam
+style = ttk.Style()
+style.theme_use('clam')
 
-# Create a StringVar for the dropdown
-#program_var = tk.StringVar(value="Select...")
-#programs = ["Select...", "textyBeast_localjob", "textyBeast_slurmjob", "textyBeast_remotejob"]
-# Create a dropdown using OptionMenu
-#dropdown = tk.OptionMenu(root, program_var, *programs)
-# Configure the dropdown's appearance
-#dropdown.config(bg="#07192e", fg="#1bde42", activebackground="#07192e", activeforeground="#d959b5")
-# Configure the appearance of individual menu items
-#configure_dropdown_menu(dropdown, "#07192e", "#d959b5", "#d959b5", "#07192e")
-#dropdown_window = canvas.create_window(300, 85, window=dropdown, anchor=tk.CENTER)
+# Style for the actual OptionMenu button
+style.configure('Custom.TMenubutton',
+                background=btnClr,
+                foreground=primTxtClr,
+                borderwidth=4,
+                padding=2,
+                highlightthickness=4,
+                highlightbackground=secTxtClr,
+                relief='raised')
 
+style.map('Custom.TMenubutton',
+          background=[('active', btnClrActive),
+                      ('!active', btnClr),
+                      ('focus', btnClrActive),
+                      ('!focus', btnClr)],
+          foreground=[('active', secTxtClr),
+                      ('!active', primTxtClr),
+                      ('focus', secTxtClr),
+                      ('!focus',primTxtClr)],
+          )
 
-# Create a frame to act as the border for the dropdown
-border_frame_dropdownpv = tk.Frame(canvas, background='#222e40', bd=0)
 # Create a StringVar for the dropdown
 program_var = tk.StringVar(value="Select...")
 programs = ["Select...", "textyBeast_localjob", "textyBeast_slurmjob", "textyBeast_remotejob"]
-# Create a dropdown using OptionMenu inside the border frame
-dropdown = tk.OptionMenu(border_frame_dropdownpv, program_var, *programs)
-# Configure the dropdown's appearance
-dropdown.config(bg="#07192e", fg="#1bde42", activebackground="#07192e", activeforeground="#d959b5", borderwidth=0) # No border for the inner dropdown
+
+# Create a dropdown using OptionMenu
+dropdown = ttk.OptionMenu(canvas, program_var, *programs, style="Custom.TMenubutton")
+
 dropdown.pack(padx=4, pady=4)  # This padding simulates the border width
-configure_dropdown_menu(dropdown, "#07192e", "#d959b5", "#d959b5", "#07192e")
+
 # Use the frame (with the dropdown inside it) as the window for the canvas
-dropdown_window = canvas.create_window(300, 85, window=border_frame_dropdownpv, anchor=tk.CENTER)
+dropdown_window = canvas.create_window(300, 85, window=dropdown, anchor=tk.CENTER)
+
 # -------------------------------------------
 
 # Choose jobtype Dropdown
@@ -634,41 +804,20 @@ dropdown_window = canvas.create_window(300, 85, window=border_frame_dropdownpv, 
 # make dropdown label 
 jobtype_dropdown_label = canvas.create_text(300, 170, text="Choose a Job Type:", anchor=tk.N, fill="#1bde42", font=("Courier", 12, "bold"))
 
-# default/initial option
-#jobtype_var = tk.StringVar(value="Select...")
-# Set of jobtypes
-#jobtypes = ["Select...", "vl", "di"]
-# create dropdown
-#dropdown_jobtype = ttk.OptionMenu(root, jobtype_var, *jobtypes)
-# create canvas window and set coordinates/set anchor setting
-#dropdown_jobtype_window = canvas.create_window(300, 215, window=dropdown_jobtype, anchor=tk.CENTER)
 
-# Create a StringVar for the dropdown
-#jobtype_var = tk.StringVar(value="Select...")
-# Set of jobtypes
-#jobtypes = ["Select...", "vl", "di"]
-# Create a dropdown using OptionMenu
-#dropdown_jobtype = tk.OptionMenu(root, jobtype_var, *jobtypes)
-# Configure the dropdown's appearance
-#dropdown_jobtype.config(bg="#07192e", fg="#1bde42", activebackground="#07192e", activeforeground="#d959b5")
-# Configure the appearance of individual menu items
-#configure_dropdown_menu(dropdown_jobtype, "#07192e", "#d959b5", "#d959b5", "#07192e")
-#dropdown_jobtype_window = canvas.create_window(300, 85, window=dropdown_jobtype, anchor=tk.CENTER)
-
-# Create a frame to act as the border for the dropdown
-border_frame_dropdownjv = tk.Frame(canvas, background='#222e40', bd=0)
 # Create a StringVar for the dropdown
 jobtype_var = tk.StringVar(value="Select...")
 # Set of jobtypes
 jobtypes = ["Select...", "vl", "di"]
-# Create a dropdown using OptionMenu inside the border frame
-dropdown_jobtype = tk.OptionMenu(border_frame_dropdownjv, jobtype_var, *jobtypes)
-# Configure the dropdown's appearance
-dropdown_jobtype.config(bg="#07192e", fg="#1bde42", activebackground="#07192e", activeforeground="#d959b5", borderwidth=0) # No border for the inner dropdown
-# Configure the appearance of individual menu items
-configure_dropdown_menu(dropdown_jobtype, "#07192e", "#d959b5", "#d959b5", "#07192e")
+
+# Create a dropdown using OptionMenu
+dropdown_jobtype = ttk.OptionMenu(canvas, jobtype_var, *jobtypes, style="Custom.TMenubutton")
+
 dropdown_jobtype.pack(padx=4, pady=4)  # This padding simulates the border width
-dropdown_jobtype_window = canvas.create_window(300, 85, window=border_frame_dropdownjv, anchor=tk.CENTER)
+
+# Use the frame (with the dropdown inside it) as the window for the canvas
+dropdown_jobtype_window = canvas.create_window(300, 85, window=dropdown_jobtype, anchor=tk.CENTER)
+
 # -------------------------------------------
 
 # Create labels for the input directory, output directory, and parameter file buttons:
@@ -693,76 +842,62 @@ param_file_label = canvas.create_text(300, 405, text="", anchor=tk.CENTER, fill=
 # Create buttons for input dir, output dir, and parameter file selectors..
 # make their respective functions called by setting command=function-above so those are called when pressed
 # -------------------------------------------
-#select_input_btn = canvas.create_window(300, 260, window=ttk.Button(canvas, text="Select Input Directory", command=select_input_dir))
-#select_output_btn = canvas.create_window(300, 320, window=ttk.Button(canvas, text="Select Output Directory", command=select_output_dir))
-#select_param_btn = canvas.create_window(300, 380, window=ttk.Button(canvas, text="Select Parameter File", command=select_param_file))
 
-# Create a frame to act as a border
-border_frame_si = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_si,
-    text="Select Input Directory",
-    command=select_input_dir,
-    bg='#07192e',
-    fg='#1bde42',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-select_input_btn = canvas.create_window(300, 260, window=border_frame_si)
-#select_input_btn = canvas.create_window(300, 260, window=tk.Button(canvas, text="Select Input Directory", command=select_input_dir, bg='#07192e', fg='#1bde42', activebackground="#07192e", activeforeground="#d959b5"))
+# Configure ttk styles
+# -------------------------------------------------------------------
+style = ttk.Style()
+style.theme_use('clam')
 
-# Create a frame to act as a border
-border_frame_so = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_so,
-    text="Select Output Directory",
-    command=select_output_dir,
-    bg='#07192e',
-    fg='#1bde42',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-select_output_btn = canvas.create_window(300, 320, window=border_frame_so)
-#select_output_btn = canvas.create_window(300, 320, window=tk.Button(canvas, text="Select Output Directory", command=select_output_dir, bg='#07192e', fg='#1bde42', activebackground="#07192e", activeforeground="#d959b5"))
+# normal text buttons:
+# Disable the default button focus background change
+style.configure('Custom.TButton',
+                background=btnClr,
+                foreground='#1bde42',
+                borderwidth=4,
+                padding=2,
+                relief='raised',
+                highlightbackground='red')
 
-# Create a frame to act as a border
-border_frame_pf = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_pf,
-    text="Select Parameter File",
-    command=select_param_file,
-    bg='#07192e',
-    fg='#1bde42',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-select_param_btn = canvas.create_window(300, 380, window=border_frame_pf)
-#select_param_btn = canvas.create_window(300, 380, window=tk.Button(canvas, text="Select Parameter File", command=select_param_file, bg='#07192e', fg='#1bde42', activebackground="#07192e", activeforeground="#d959b5"))
-# -------------------------------------------
+style.map('Custom.TButton',
+          background=[('active', btnClrActive),
+                      ('!active', btnClr)],
+          foreground=[('active', '#d959b5'),
+                      ('!active', '#1bde42')],
+          )
 
-# Create the "Run" Button
-# -------------------------------------------
-# Create a frame to act as a border
-border_frame_run = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_run,
-    text="RUN",
-    command=run_command,
-    bg='#07192e',
-    fg='#1bde42',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-run_btn = canvas.create_window(300, 440, window=border_frame_run)
-#run_btn = canvas.create_window(300, 440, window=tk.Button(canvas, text="Run", command=run_command, bg='#07192e', fg='#1bde42', activebackground="#07192e", activeforeground="#d959b5"))
+# Red text buttons:
+style.configure('RedCustom.TButton',
+                background=btnClr,
+                foreground='#ff0000',  # Red color
+                borderwidth=4,
+                padding=2,
+                relief='raised',
+                highlightbackground='red')
+
+style.map('RedCustom.TButton',
+          background=[('active', btnClrActive),
+                      ('!active', btnClr)],
+          foreground=[('active', '#d959b5'),
+                      ('!active', '#ff0000')]  # Red color
+          )
+
+# -------------------------------------------------------------------
+
+# Select input dir button:
+button = ttk.Button(canvas, text="Select Input Directory", command=select_input_dir, style='Custom.TButton')
+select_input_btn = canvas.create_window(300, 260, window=button)
+
+# Select output dir button:
+button = ttk.Button(canvas, text="Select Output Directory", command=select_output_dir, style='Custom.TButton')
+select_output_btn = canvas.create_window(300, 320, window=button)
+
+# Select parameter file button:
+button = ttk.Button(canvas, text="Select Parameter File", command=select_param_file, style='Custom.TButton')
+select_param_btn = canvas.create_window(300, 380, window=button)
+
+# Run Button:
+button = ttk.Button(canvas, text="RUN", command=run_command, style='Custom.TButton')
+run_btn = canvas.create_window(300, 440, window=button)
 # -------------------------------------------
 
 # create the console for the terminal emulator...
@@ -771,21 +906,12 @@ console_visible = False
 console = scrolledtext.ScrolledText(root, width = 75, height = 20, bg='#07192e', fg='#1bde42')
 #console.pack(expand=False,side=tk.BOTTOM)
 console.pack(expand=False, fill=tk.BOTH)
-
-#console.pack_forget() # Think this might make it initially "hidden"..?
 # -------------------------------------------
 
 # set up the field for the text input to console that appears when job is running...
 # -------------------------------------------
 input_field = tk.Entry(root, bg='#d959b5', fg='#07192e', insertbackground='#1bde42',insertwidth=10)
 input_field.pack_forget() # Think this might make it initially "hidden"..?
-# -------------------------------------------
-
-# Drifting banner and READY text coordinates **NEEDED?**
-# -------------------------------------------
-#run_btn_coords = canvas.coords(run_btn)
-#drifting_text_x = run_btn_coords[0]
-#drifting_text_y = run_btn_coords[1] - 20
 # -------------------------------------------
 
 # Drifting Text Setup
@@ -798,35 +924,17 @@ drifting_text = canvas.create_text(-100, 0, text="JOB RUNNING...", fill="#d959b5
 ready_text = canvas.create_text(50, 20, text="----- READY -----", fill="#1bde42", font=("Courier", 16, "bold"), state=tk.NORMAL)
 # -------------------------------------------
 
-# Create a frame to act as a border
-border_frame_kb = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_kb,
-    text="Kill Current Process...",
-    command=kill_process,
-    bg='#07192e',
-    fg='red',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-kill_button = canvas.create_window(300, 260, window=border_frame_kb)
+# Kill Button
+button = ttk.Button(canvas, text="Kill Current Process...", command=kill_process, style='RedCustom.TButton')
+kill_button = canvas.create_window(300, 260, window=button)
+
+# Close Button
+button = ttk.Button(canvas, text="CLOSE", command=close_window, style='RedCustom.TButton')
+close_button = canvas.create_window(50, 50, window=button)
 
 
-# Create a frame to act as a border
-border_frame_close = tk.Frame(canvas, background='#222e40', bd=0)
-button = tk.Button(
-    border_frame_close,
-    text="CLOSE",
-    command=close_window,
-    bg='#07192e',
-    fg='red',
-    activebackground="#07192e",
-    activeforeground="#d959b5",
-    borderwidth=0 # No border for the inner button
-)
-button.pack(padx=4, pady=4)  # This padding simulates the border width
-close_button = canvas.create_window(50, 50, window=border_frame_close)
+button = ttk.Button(root, text="Amuse Me ...", command=open_amusement_portal, style='Custom.TButton')
+button.pack(pady=4)
+open_btn = canvas.create_window(300, 380, window=button)
 
 root.mainloop()
