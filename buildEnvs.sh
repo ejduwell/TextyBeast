@@ -122,6 +122,14 @@ for env in ${envs[@]}; do
         if [[ $env == "gui" ]]; then
             pip install tk
             pip install pillow
+	    pip install pytube
+	    pip install moviepy
+	    pip install pygame
+	    dirTmp=pwd
+	    cd $BASEDIR/envs/$env/env/
+	    git clone https://github.com/johncheetham/breakout.git
+	    git clone https://github.com/lukasz1985/PyBlocks.git
+	    cd $dirTmp
         fi
         
         # install jupyter notebooks for running install checker notebook

@@ -19,9 +19,10 @@ mkdir output
 cd envs
 
 # list of environments
-#envs=("ocr", "whspr", "pyannote", "gui")
-# This script is identical to the buildEnv.sh script with the exception that
-# for this version of the script, only the gui is built/only "gui" is listed/built:
+#envs=("ocr" "whspr" "pyannote" "gui")
+
+# For development: if you want to just install one or a subset of the envs to test,
+# paste them in below, and uncomment it/comment the original above....
 envs=("gui") # temp line for expediency during development... remove later..
 
 for env in ${envs[@]}; do
@@ -119,8 +120,16 @@ for env in ${envs[@]}; do
         fi
         
         if [[ $env == "gui" ]]; then
-            pip install tkinter
+            pip install tk
             pip install pillow
+	    pip install pytube
+	    pip install moviepy
+	    pip install pygame
+	    dirTmp=pwd
+	    cd $BASEDIR/envs/$env/env/
+	    git clone https://github.com/johncheetham/breakout.git
+	    git clone https://github.com/lukasz1985/PyBlocks.git
+	    cd $dirTmp
         fi
         
         # install jupyter notebooks for running install checker notebook
