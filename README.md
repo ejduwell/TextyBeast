@@ -63,7 +63,12 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 
 
 ## Installation:
-Follow one of the three install instructions below based on which set up you plan to run.
+-------------------------------
+Follow one of the three install instructions below based on which set up you plan to run:
+   1) [Install for running only local jobs](https://github.com/ejduwell/TextyBeast#for-running-jobs-on-local-machine-only)
+   2) [Install for running only remote/slurm cluster jobs](https://github.com/ejduwell/TextyBeast#for-running-jobs-on-remote-slurm-cluster-only)
+   3) [Install for running both local and remote jobs](https://github.com/ejduwell/TextyBeast#to-be-able-to-run-jobs-locally-and-on-remote-slurm-cluster)
+-------------------------------
 
 ### For running jobs on local machine only:
 
