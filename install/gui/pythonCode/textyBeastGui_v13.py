@@ -9,15 +9,11 @@ import os
 import socket
 import sys
 import signal
-#import cv2
-#import pygame
-#from moviepy.editor import VideoFileClip
-#import pygame
 from pytube import YouTube
-#import vlc
 import random
 import shutil
 import glob
+
 # Get input args
 # ----------------------------------------------------------------------------------------
 baseDir = sys.argv[1];
@@ -127,32 +123,45 @@ def getYTvideo(ytURL):
     global baseDir
     global videoPath
     global tmpPath
+
     subprocess.run(["python", baseDir+"/envs/gui/env/lib/python3.9/site-packages/"+"ytDL.py", ytURL, tmpPath])
-    
+
+ 
 def play_video():
     global baseDir
     global videoPath
     global tmpPath
     global ytURLs
-    # video_path = videoPath
 
-    # url=ytURLs[0]
-    url = random.choice(ytURLs)
-    getYTvideo(url)
+    
 
-    # grab latest file (one we just downloaded..)
-    list_of_files = glob.glob(tmpPath+'/*') # * means all if need specific format then *.csv
-    latest_file = max(list_of_files, key=os.path.getctime)
-    video_path=latest_file
-    #video_path = get_random_file(tmpPath)
+    while True:  # Infinite loop, we will break out when we succeed.
+       url = random.choice(ytURLs)
+       getYTvideo(url)
+       # grab latest file (one we just downloaded..)
+       list_of_files = glob.glob(tmpPath + '/*')  # * means all if need specific format then *.csv
+       try:
+          latest_file = max(list_of_files, key=os.path.getctime)
+          break
+
+       except:
+          print("")
+          print("Error Trying To Get Video..")
+          print("The Problem URL was:"+url)
+          print("Trying Another URL ...")
+          print("")
+          continue
+        
+    video_path = latest_file
     try:
-        process = subprocess.Popen(["python", baseDir+"/envs/gui/env/lib/python3.9/site-packages/"+"play_video.py", video_path])
+        process = subprocess.Popen(["python", baseDir + "/envs/gui/env/lib/python3.9/site-packages/" + "play_video.py", video_path])
         process.communicate()  # Wait for the process to finish
         if process.returncode != 0:
             print(f"Video player exited with code {process.returncode}.")
     except Exception as e:
         print("Error while playing the video:", str(e))
     os.remove(video_path)
+
     
 def open_amusement_portal():
     amusement_window = tk.Toplevel(root)
