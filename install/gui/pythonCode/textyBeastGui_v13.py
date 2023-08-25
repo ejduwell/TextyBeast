@@ -92,7 +92,14 @@ ytURLs = ['https://www.youtube.com/watch?v=scD4_ZVDD-8&ab_channel=MontyPython',
           'https://www.youtube.com/watch?v=EIyixC9NsLI',
           'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           'https://www.youtube.com/watch?v=mfhBM_Yay6w',
-          'https://www.youtube.com/watch?v=HrzY_HF-Znw']
+          'https://www.youtube.com/watch?v=HrzY_HF-Znw',
+          'https://www.youtube.com/watch?v=PaEnaoydUUo',
+          'https://www.youtube.com/watch?v=OQaLic5SE_I',
+          'https://www.youtube.com/watch?v=_lK4cX5xGiQ',
+          'https://www.youtube.com/watch?v=FL4HSiGvk68',
+          'https://www.youtube.com/watch?v=cLmCJKT5ssw',
+          'https://www.youtube.com/watch?v=GXJifYl_byU',
+          'https://www.youtube.com/watch?v=3AZz9TSjZCM']
 
 
 tmpPath=baseDir+"/tmp"
@@ -104,6 +111,19 @@ if not isExist:
 
 # Define Functions
 # ----------------------------------------------------------------------------------------
+def start_breakout():
+    global baseDir
+    strtTmp=os.getcwd()
+    os.chdir(baseDir+"/envs/gui/env/breakout/")
+    subprocess.run(["python", "breakout.py"])
+    os.chdir(strtTmp)
+
+def start_pyBlocks():
+    strtTmp=os.getcwd()
+    os.chdir(baseDir+"/envs/gui/env/PyBlocks/")
+    subprocess.run(["python", "main.py"])
+    os.chdir(strtTmp)
+    
 def get_random_file(dir_path):
     """
     Get a random file from the specified directory.
@@ -196,8 +216,15 @@ def open_amusement_portal():
               foreground=[('active', '#d959b5'),
                           ('!active', '#1bde42')],
               )
+    
     play_vid_button = ttk.Button(amusement_window, text="Play a Random Silly Video ...", command=play_video, style="Custom.TButton")
     play_vid_button.pack(pady=10)
+
+    play_breakout_button = ttk.Button(amusement_window, text="Play Breakout ...", command=start_breakout, style="Custom.TButton")
+    play_breakout_button.pack(pady=10)
+
+    play_blocks_button = ttk.Button(amusement_window, text="Play with Blocks ...", command=start_pyBlocks, style="Custom.TButton")
+    play_blocks_button.pack(pady=10)
 
     close_button = ttk.Button(amusement_window, text="I am now sufficiently amused. Please close this window ...", command=amusement_window.destroy, style="Custom.TButton")
     close_button.pack(pady=10)
