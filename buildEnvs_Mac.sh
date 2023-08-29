@@ -116,14 +116,21 @@ for env in ${envs[@]}; do
         pip install jupyter
     else
         if [[ $env == "pyannote" ]]; then
+            #dirTmp=$(pwd)
+            #cd $BASEDIR/envs/$env/env/lib/python3.8/site-packages
+	    #git clone https://github.com/pyannote/pyannote-audio.git
+	    #cd pyannote-audio
+            #git checkout develop
+            #pip install .
+            #cd $dirTmp
             #pip install -qq https://github.com/pyannote/pyannote-audio/archive/refs/heads/develop.zip
-            pip install pyannote.audio==2.1.1
-	    pip install pyannote.metrics==3.2.1
-            pip install pyannote.core==4.5
-            pip install pyannote.database==4.1.3
-            pip install pyannote.pipeline==2.3
-            pip install pydub
+            pip install torch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1
+	    pip install -qq https://github.com/pyannote/pyannote-audio/archive/refs/heads/develop.zip
+	    pip install pyannote.metrics
+            pip install pyannote.pipeline
+	    pip install pydub
             pip install moviepy
+            echo  ""
         fi
         
         if [[ $env == "gui" ]]; then
