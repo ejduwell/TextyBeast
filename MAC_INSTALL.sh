@@ -69,7 +69,7 @@ fi
 
 # Enter TextyBeast/textyBeastLocal
 # and make all scripts executable ..
-cd TextyBeast/textyBeastLocal
+cd textyBeastLocal
 chmod +wrx *
 
 echo ""
