@@ -82,20 +82,18 @@ echo "Now we need to source your shell profile"
 echo "script to make the info you just entered"
 echo "available withing this session ..."
 echo ""
-echo "Is your primary shell zsh of bash?:     "
-echo "----------------------------------------"
-echo "(If you're  not sure, open a new        "
-echo "terminal window and check the prompt:   "
-echo "zsh will have a '%', bash have a '$')   "
-echo "----------------------------------------"
-read -p "Press 'b' for bash or 'z' for zsh: " shellResp
+read -p "Press Enter/Return to Proceed..." anyKey
 echo ""
 
-if [[ $shellResp == 'b' ]]; then
+# detect the default shell
+cd $startDir #make sure we're in the base directory
+defShell=$(./checkDefaultShell.sh)
+
+if [[ $defShell == 'bash' ]]; then
 source ~/.bash_profile
 fi
 
-if [[ $shellResp == 'z' ]]; then
+if [[ $defShell == 'zsh' ]]; then
 source ~/.zshrc
 fi
 
@@ -182,7 +180,7 @@ echo ""
 echo "Follow instructions above to complete   "
 echo "SLURM setup after this script finishes.."
 echo ""
-read -p "Press any key to continue ..." anyKey
+read -p "Press Enter/Return to Proceed..." anyKey
 echo ""
 fi
 
@@ -195,7 +193,7 @@ echo ""
 echo "Finally.. Adding TextyBeast functions   "
 echo "to the permenant local path ...         "
 echo ""
-read -p "Press any key to continue ..." anyKey
+read -p "Press Enter/Return to Proceed..." anyKey
 echo ""
 
 # Add fucntions in textyBeastLocal to permenant path
