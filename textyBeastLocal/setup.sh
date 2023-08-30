@@ -51,11 +51,27 @@ echo "#########################################################################"
 echo ""
 echo ""
 
+# PATH STUFF:
+startDir=$(pwd)
+
+# get the full path to the main package directory for this package on this machine
+SCRIPTDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd $SCRIPTDIR
+cd ..
+BASEDIR=$(pwd)
+cd $startDir # return to startpoint..
+
+# Detect OS and primary shell..
+cd $BASEDIR #make sure we're in the base directory
+defShell=$(./checkDefaultShell.sh)
+userOS=$(./checkOS.sh)
+cd $startDir # return to startpoint..
+
 # READ IN INPUTS FROM USER
-echo "Is your local machine running MacOSX or a Linux distro?"
-echo "Press 'm' for Mac or 'l' for Linux. Then press enter/return:"
-read osType
-echo ""
+#echo "Is your local machine running MacOSX or a Linux distro?"
+#echo "Press 'm' for Mac or 'l' for Linux. Then press enter/return:"
+#read osType
+#echo ""
 
 echo ""
 echo "Please enter the hostname or IP of the SLURM cluster host below:"
@@ -70,15 +86,29 @@ echo ""
 # ADD THESE TO THE PERMANENT PATH BY ADDING CALLS TO .BASHRC/.BASHPROFILE
 #----------------------------------------------------------------------------------
 
-# First check whether they indicated mac or linux and assign rcFile to the relavent
+# First check whether they're running mac or linux and assign rcFile to the relavent
 # .bashrc/.bash_profile string..
 
-if [[ $osType == "l" ]]; then
+# For Linux
+if [[ $userOS == "Linux" ]]; then
+
+if [[ $defShell == "bash" ]]; then
 rcFile=~/.bashrc
 fi
 
-if [[ $osType == "m" ]]; then
+fi
+
+# For macOS
+if [[ $userOS == "Darwin" ]]; then
+
+if [[ $defShell == "bash" ]]; then
 rcFile=~/.bash_profile
+fi
+
+if [[ $defShell == "zsh" ]]; then
+rcFile=~/.zshrc
+fi
+
 fi
 
 echo "Adding cluster path and hostname info to permanent path"
