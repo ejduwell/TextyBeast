@@ -101,6 +101,7 @@ echo ""
 echo "Installing TextyBeast on Remote Cluster:"
 echo "========================================"
 echo ""
+cd textyBeastLocal #return to textyBeastLocal directory..
 ./remoteClstrInstall.sh
 echo ""
 echo "========================================"
