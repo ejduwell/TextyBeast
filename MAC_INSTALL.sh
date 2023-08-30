@@ -1,5 +1,6 @@
 #!/bin/bash
 
+startDir=$(pwd)
 echo ""
 echo "Starting at $(date)"
 echo ""
@@ -51,21 +52,6 @@ chmod +wrx makeExctbl; ./makeExctbl
 
 # Build Virtual Python Environments
 ./buildEnvs_Mac.sh
-
-echo ""
-echo "########################################"
-echo "#       Check Local Installation       #" 
-echo "########################################"
-echo ""
-echo "The following routine opens a couple    "
-echo "jupyter notebooks containing some code  "
-echo "to test your local install is working.  "
-echo ""
-read -p "   Press 'y' run or 'n' to skip: " prcd2
-
-if [[ $prcd2 == 'y' ]]; then
-./checkInstall.sh
-fi
 
 # Enter TextyBeast/textyBeastLocal
 # and make all scripts executable ..
@@ -214,6 +200,22 @@ echo ""
 
 # Add fucntions in textyBeastLocal to permenant path
 ./addFcns2Path.sh
+
+echo ""
+echo "########################################"
+echo "#       Check Local Installation       #" 
+echo "########################################"
+echo ""
+echo "The following routine opens a couple    "
+echo "jupyter notebooks containing some code  "
+echo "to test your local install is working.  "
+echo ""
+read -p "   Press 'y' run or 'n' to skip: " prcd2
+
+if [[ $prcd2 == 'y' ]]; then
+cd $startDir
+./checkInstall.sh
+fi
 
 echo ""
 echo "TextyBeast Install Complete!"
