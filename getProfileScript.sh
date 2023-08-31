@@ -30,6 +30,10 @@ case "$defShell" in
         
     "bash")
         # return shell profile script
+	# NOTE: TextyBeast is using .bashrc regarless of
+	# OS or other setup difs..
+	# We're also taking measures to ensure
+	# .bashrc is present/sourced..
         PROFILE_SCRIPT="~/.bashrc"
         echo "$PROFILE_SCRIPT"
         ;;
