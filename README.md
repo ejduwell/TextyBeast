@@ -43,7 +43,38 @@ Follow one of the three install instructions below based on which set up you pla
    2) [Install for running only remote/slurm cluster jobs](https://github.com/ejduwell/TextyBeast#for-running-jobs-on-remote-slurm-cluster-only)
    3) [Install for running both local and remote jobs](https://github.com/ejduwell/TextyBeast#to-be-able-to-run-jobs-locally-and-on-remote-slurm-cluster)
 -------------------------------
+### New Universal Install Procedure:
+1. Open a terminal window on your local machine and navigate to desired install location
 
+2. Clone repository:
+
+   ```
+   git clone https://github.com/ejduwell/TextyBeast.git
+   ```
+
+3. Enter newly created TextyBeast directory:
+
+   ```
+   cd TextyBeast
+   ```
+
+4. Make installation script executable:
+
+   ```
+   chmod +wrx INSTALLER.sh
+   ```
+
+5. Run the INSTALLER.sh script:
+
+   ```
+   ./INSTALLER.sh
+   ```
+   - Follow instructions on the command line and provide requested inputs
+   - Installer will ask you for whether you want to setup remote job submissions
+   - If you want to set this up, be ready to provide:
+     - the remote hostname or IP address
+     - your username on the remote machine
+   
 ### For running jobs on local machine only:
 
 1. Open a terminal window on your local machine and navigate to desired install location
