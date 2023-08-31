@@ -10,10 +10,11 @@ cd ..
 BASEDIR=$(pwd)
 cd $startDir # return to startpoint..
 
-# Detect OS and primary shell..
+# Detect OS, default shell, and corresponding profile script..
 cd $BASEDIR #make sure we're in the base directory
 defShell=$(./checkDefaultShell.sh)
 userOS=$(./checkOS.sh)
+rcFile=$(getProfileScript.sh)
 cd $startDir # return to startpoint..
 
 # READ IN INPUTS FROM USER
@@ -23,26 +24,26 @@ cd $startDir # return to startpoint..
 #echo ""
 
 # For Linux
-if [[ $userOS == "Linux" ]]; then
+#if [[ $userOS == "Linux" ]]; then
 
-if [[ $defShell == "bash" ]]; then
-rcFile=~/.bashrc
-fi
+#if [[ $defShell == "bash" ]]; then
+#rcFile=~/.bashrc
+#fi
 
-fi
+#fi
 
 # For macOS
-if [[ $userOS == "Darwin" ]]; then
+#if [[ $userOS == "Darwin" ]]; then
 
-if [[ $defShell == "bash" ]]; then
-rcFile=~/.bash_profile
-fi
+#if [[ $defShell == "bash" ]]; then
+#rcFile=~/.bash_profile
+#fi
 
-if [[ $defShell == "zsh" ]]; then
-rcFile=~/.zshrc
-fi
+#if [[ $defShell == "zsh" ]]; then
+#rcFile=~/.zshrc
+#fi
 
-fi
+#fi
 
 echo "Adding TextyBeastLocal folder path to permanent path"
 echo "by adding the following commands to the end of $rcFile:"
