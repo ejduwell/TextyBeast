@@ -70,7 +70,7 @@ Follow one of the three install instructions below based on which set up you pla
    ./INSTALLER.sh
    ```
    - Follow instructions on the command line and provide requested inputs
-   - Installer will ask you for whether you want to setup remote job submissions
+   - Installer will ask whether you want to set up remote job submissions
    - If you want to set this up, be ready to provide:
      - the remote hostname or IP address
      - your username on the remote machine
