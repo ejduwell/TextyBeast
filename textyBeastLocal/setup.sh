@@ -32,8 +32,9 @@ echo "##                   -------------------------------                   ##"
 echo "##                   Remote Location/Path/SSH Setup:                   ##"
 echo "##                   -------------------------------                   ##"
 echo "##      Welcome! This script is for specifying info about your         ##"
-echo "##      SLURM computing cluster which will be used in establishing     ##"
-echo "##      connections to submit jobs from your local machine.            ##"
+echo "##      SLURM computing cluster or remote machine which will be used   ##"
+echo "##      in establishing connections to submit jobs from your           ##"
+echo "##      local machine.                                                 ##"
 echo "##                                                                     ##"
 echo "##      This script must be run as part of your install process        ##"
 echo "##      before you are able to submit jobs to a cluster                ##"
@@ -72,7 +73,7 @@ cd $startDir # return to startpoint..
 # -------------------------
 # first get hostname, and make absolutely sure they sign off on it/don't accidentally hit enter to proceed..
 echo ""
-echo "Please enter the hostname or IP of the SLURM cluster host below:"
+echo "Please enter the hostname or IP of the remote host below:"
 read clstrHost
 echo ""
 echo "Just double checking.. does the following hostname/ip look correct?:"
@@ -96,7 +97,7 @@ elif [[ "$STR" == "$SUB2" ]]; then
     while [[ "$dchek" != 'y' ]]
     do    
 	echo "OK"
-	echo "Please re-enter the hostname or IP of the SLURM cluster host below:"
+	echo "Please re-enter the hostname or IP of the remote host below:"
         read clstrHost
 	echo ""
 	echo "Just double checking again.. does the following hostname/ip look correct?:"
@@ -130,7 +131,7 @@ else
 	while [[ "$dchek" != 'y' ]]
 	do    
 	echo "OK"
-	echo "Please re-enter the hostname or IP of the SLURM cluster host below:"
+	echo "Please re-enter the hostname or IP of the remote host below:"
         read clstrHost
 	echo ""
 	echo "Just double checking again.. does the following hostname/ip look correct?:"
@@ -151,7 +152,7 @@ fi
 
 # Now do the same for the cluster path..
 echo ""
-echo "Please enter the full path to the parent folder on the SLURM cluster where you want to install TextyBeast below:"
+echo "Please enter the full path to the parent folder on the remote system where you want to install TextyBeast below:"
 read clstrPath
 echo ""
 echo "Just double checking.. does the following path look correct?:"
@@ -292,17 +293,17 @@ echo ""
 echo "SSH KEY SETUP:"
 echo "#########################################################################"
 echo ""
-echo "Please enter your username on the cluster below:"
+echo "Please enter your username on the remote system below:"
 read -p 'Username: ' uservar
 echo ""
 echo "If you have not done so already, you will need to set up a public/private"
 echo "SSH key on your local machine.. this allows for automation of sending commands"
-echo "to the cluster via SSH using password protected keys rather than manual"
-echo "password entry."
+echo "to the cluster/remote system via SSH using password protected keys rather than"
+echo "manual password entry."
 echo ""
 echo "Without setting this up, you will need to enter login credentials every single"
-echo "time a command is issued to the cluster via SSH, which will make running jobs"
-echo "very cumbersome/unworkable..."
+echo "time a command is issued to the remote system via SSH, which will make running"
+echo "jobs very cumbersome/unworkable..."
 echo ""
 echo "If you say yes below and run the setup procedure, you will be asked"
 echo "to enter the password you establish to protect the ssh keys at the beginning"
@@ -334,7 +335,6 @@ if [[ "$STR" == "$SUB" ]]; then
     echo ""
     echo "---------------------------------------------------------"
     echo ""
-    echo "Copying your keys to the Cluster..."
 
 elif [[ "$STR" == "$SUB2" ]]; then
     echo "OK, proceeding without SSH key setup.."
@@ -363,9 +363,8 @@ else
 	 echo 'ssh-add ~/.ssh/id_rsa' >> $rcFile
 	 echo ""
 	 echo "---------------------------------------------------------"
-	 
 	 echo ""
-	 echo "Copying your keys to the Cluster..."
+
 
     elif [[ "$STR" == "$SUB2" ]]; then
 	echo "OK, proceeding without SSH key setup.."
@@ -378,7 +377,7 @@ Cmd4=$Cmd4_1'"'$uservar'"'
 echo $Cmd4 >> $rcFile
 echo ""
 
-echo "Adding cluster username info to permanent path by adding"
+echo "Adding remote username info to permanent path by adding"
 echo "the following command to the end of $rcFile:"
 echo "---------------------------------------------------------"
 echo $Cmd4
