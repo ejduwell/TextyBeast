@@ -68,20 +68,163 @@ userOS=$(./checkOS.sh)
 cd $startDir # return to startpoint..
 
 # READ IN INPUTS FROM USER
-#echo "Is your local machine running MacOSX or a Linux distro?"
-#echo "Press 'm' for Mac or 'l' for Linux. Then press enter/return:"
-#read osType
-#echo ""
-
+# -------------------------
+# first get hostname, and make absolutely sure they sign off on it/don't accidentally hit enter to proceed..
 echo ""
 echo "Please enter the hostname or IP of the SLURM cluster host below:"
 read clstrHost
 echo ""
+echo "Just double checking.. does the following hostname/ip look correct?:"
+echo "$clstrHost"
+echo ""
+read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+echo ""
 
+STR=$dchek
+SUB='y'
+SUB2='n'
+SUB3='yn'
+
+if [[ "$STR" == "$SUB" ]]; then
+
+    echo "OK, Thanks.."
+    echo ""
+
+elif [[ "$STR" == "$SUB2" ]]; then
+
+    while [[ "$dchek" != 'y' ]]
+    do    
+	echo "OK"
+	echo "Please re-enter the hostname or IP of the SLURM cluster host below:"
+        read clstrHost
+	echo ""
+	echo "Just double checking again.. does the following hostname/ip look correct?:"
+	echo "$clstrHost"
+	echo ""
+	read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+	echo ""
+	while [[ "$SUB3" != *"$dchek"* ]]
+	do
+	   echo "input not recognized.. try again"
+	   read -p '(enter either y or n, then hit ENTER) ' dchek
+        done
+
+    done
+  
+else
+    echo "input not recognized.. try again"
+    read -p '(enter either y or n, then hit ENTER) ' dchek
+    while [[ "$SUB3" != *"$dchek"* ]]
+    do
+	   echo "input not recognized.. try again"
+	   read -p '(enter either y or n, then hit ENTER) ' dchek
+    done
+
+    STR=$dchek
+    if [[ "$STR" == "$SUB" ]]; then
+	echo "OK, Thanks.."
+	echo ""
+
+    elif [[ "$STR" == "$SUB2" ]]; then
+	while [[ "$dchek" != 'y' ]]
+	do    
+	echo "OK"
+	echo "Please re-enter the hostname or IP of the SLURM cluster host below:"
+        read clstrHost
+	echo ""
+	echo "Just double checking again.. does the following hostname/ip look correct?:"
+	echo "$clstrHost"
+	echo ""
+	read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+	echo ""
+	while [[ "$SUB3" != *"$dchek"* ]]
+	do
+	    echo "input not recognized.. try again"
+	    read -p '(enter either y or n, then hit ENTER) ' dchek
+        done
+
+	done
+    fi
+fi
+
+
+# Now do the same for the cluster path..
 echo ""
 echo "Please enter the full path to the parent folder on the SLURM cluster where you want to install TextyBeast below:"
 read clstrPath
 echo ""
+echo "Just double checking.. does the following path look correct?:"
+echo "$clstrPath"
+echo ""
+read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+echo ""
+
+STR=$dchek
+SUB='y'
+SUB2='n'
+SUB3='yn'
+
+if [[ "$STR" == "$SUB" ]]; then
+
+    echo "OK, Thanks.."
+    echo ""
+
+elif [[ "$STR" == "$SUB2" ]]; then
+
+    while [[ "$dchek" != 'y' ]]
+    do    
+	echo "OK"
+	echo "Please re-enter the path below:"
+        read clstrPath
+	echo ""
+	echo "Just double checking again.. does the following path look correct?:"
+	echo "$clstrPath"
+	echo ""
+	read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+	echo ""
+	while [[ "$SUB3" != *"$dchek"* ]]
+	do
+	   echo "input not recognized.. try again"
+	   read -p '(enter either y or n, then hit ENTER) ' dchek
+        done
+
+    done
+  
+else
+    echo "input not recognized.. try again"
+    read -p '(enter either y or n, then hit ENTER) ' dchek
+    while [[ "$SUB3" != *"$dchek"* ]]
+    do
+	   echo "input not recognized.. try again"
+	   read -p '(enter either y or n, then hit ENTER) ' dchek
+    done
+
+    STR=$dchek
+    if [[ "$STR" == "$SUB" ]]; then
+	echo "OK, Thanks.."
+	echo ""
+
+    elif [[ "$STR" == "$SUB2" ]]; then
+	while [[ "$dchek" != 'y' ]]
+	do    
+	echo "OK"
+	echo "Please re-enter the path below:"
+        read clstrPath
+	echo ""
+	echo "Just double checking again.. does the following path look correct?:"
+	echo "$clstrPath"
+	echo ""
+	read -p "If correct, press 'y', if not press 'n', then press Enter/Return:" dchek
+	echo ""
+	while [[ "$SUB3" != *"$dchek"* ]]
+	do
+	    echo "input not recognized.. try again"
+	    read -p '(enter either y or n, then hit ENTER) ' dchek
+        done
+
+	done
+    fi
+fi
 
 # ADD THESE TO THE PERMANENT PATH BY ADDING CALLS TO .BASHRC/.BASHPROFILE
 #----------------------------------------------------------------------------------
@@ -227,7 +370,6 @@ else
 	echo "OK, proceeding without SSH key setup.."
     fi
 fi
-
 
 # Finally, add calls to export the cluster username variable via .bashrc
 Cmd4_1='export clstrUsr='
