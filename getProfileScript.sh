@@ -24,8 +24,8 @@ usrOS=$(./checkOS.sh)
 case "$defShell" in
     "sh")
         # return shell profile script
-        PROFILE_SCRIPT="~/.profile"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.profile
+        echo $PROFILE_SCRIPT
         ;;
         
     "bash")
@@ -34,38 +34,38 @@ case "$defShell" in
 	# OS or other setup difs..
 	# We're also taking measures to ensure
 	# .bashrc is present/sourced..
-        PROFILE_SCRIPT="~/.bashrc"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.bashrc
+        echo $PROFILE_SCRIPT
         ;;
     
     "csh")
         # return shell profile script
-        PROFILE_SCRIPT="/etc/csh.cshrc"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=/etc/csh.cshrc
+        echo $PROFILE_SCRIPT
         ;;
     
     "tcsh")
         # return shell profile script
-        PROFILE_SCRIPT="~/.tcshrc"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.tcshrc
+        echo $PROFILE_SCRIPT
         ;;
     
     "ksh")
         # return shell profile script
-        PROFILE_SCRIPT="~/.profile"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.profile
+        echo $PROFILE_SCRIPT
         ;;
     
     "zsh")
         # return shell profile script
-        PROFILE_SCRIPT="~/.zshenv"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.zshenv
+        echo $PROFILE_SCRIPT
         ;;
     
     "fish")
         # return shell profile script
-        PROFILE_SCRIPT="~/.config/fish/config.fish"
-        echo "$PROFILE_SCRIPT"
+        PROFILE_SCRIPT=~/.config/fish/config.fish
+        echo $PROFILE_SCRIPT
         ;;
     
     *)
