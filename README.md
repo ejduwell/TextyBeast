@@ -71,7 +71,8 @@ This repository can be installed/setup to run jobs locally, remotely (including 
    
 
 
-6. (Only if you're submitting jobs to a SLURM cluster)
+6. (This final step is only necessary if you're submitting jobs to a SLURM cluster...)
+   
    If you intend to submit jobs to a remote SLURM cluster, you will need to make some small edits to the SLURM headers of two files on the cluster to configure them for your SLURM account:
 
    - ssh into the cluster:
