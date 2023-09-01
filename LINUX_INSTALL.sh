@@ -88,15 +88,19 @@ echo ""
 # detect the default shell
 cd $startDir #make sure we're in the base directory
 defShell=$(./checkDefaultShell.sh)
+rcFile=$(./getProfileScript.sh)
 
-if [[ $defShell == 'bash' ]]; then
-source ~/.bashrc
+#source profile script
+source $rcFile
 
-else
-    echo "Your Default Shell Is Not Bash.."
-    echo "Looks like it is instead: $defShell"
-    read -p "You'll need"
-fi
+#if [[ $defShell == 'bash' ]]; then
+#source ~/.bashrc
+
+#else
+#    echo "Your Default Shell Is Not Bash.."
+#    echo "Looks like it is instead: $defShell"
+#    read -p "You'll need"
+#fi
 
 
 echo ""
