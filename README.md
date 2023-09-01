@@ -14,7 +14,7 @@ use case, but it could could be used for other applications as well.
 
 This repository can be installed/setup to run jobs locally, remotely (including SLURM clusters), or both.
 
-## Requirements/Dependencies:
+# Requirements/Dependencies:
 - Must be running a Linux operating system or MacOS
 - Must have an NVIDIA gpu (if you want processing time to be reasonably efficient)
 - Will function best on a Linux machine equipped with newer NVIDIA cards.
@@ -36,8 +36,8 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 - If you're having dependency issues with any of the packages listed above, see the  [notes section below](https://github.com/ejduwell/TextyBeast/blob/main/README.md#notes).
 
 
-## Installation:
--------------------------------
+# Installation:
+
 1. Open a terminal window on your local machine and navigate to desired install location
 
 2. Clone repository:
@@ -112,10 +112,9 @@ This repository can be installed/setup to run jobs locally, remotely (including 
    - save your changes, and you should be good to go ... 
 
 
-## Usage:
+# Usage:
 
-
-### Command Line Functions:
+## Command Line Functions:
 
 There are three seperate command-line functions for running jobs locally, on a remote slurm cluster, and on a remote machine respectively:
 
@@ -239,7 +238,7 @@ The general syntax and options for the three functions are identical. Each requi
         #########################################################################################################
         #########################################################################################################
 
-### TextyBeast GUI:
+## TextyBeast GUI:
 
 TextyBeast also comes with simple GUI interface (built using tkinter) for interactively submitting jobs with the functions described above.
 
@@ -250,7 +249,7 @@ textyBeast_gui
 ```
 
 
-## Notes:
+# Notes:
 
 1) Some local scripts depend on jot. This does not appear to come pre-installed on Ubuntu. If you are running an Ubuntu machine and don't have jot installed yet, you will need to run:
    ```
