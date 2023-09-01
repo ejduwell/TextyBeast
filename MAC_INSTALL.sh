@@ -88,14 +88,18 @@ echo ""
 # detect the default shell
 cd $startDir #make sure we're in the base directory
 defShell=$(./checkDefaultShell.sh)
+rcFile=$(./getProfileScript.sh)
 
-if [[ $defShell == 'bash' ]]; then
-source ~/.bash_profile
-fi
+#source profile script
+source $rcFile
 
-if [[ $defShell == 'zsh' ]]; then
-source ~/.zshrc
-fi
+#if [[ $defShell == 'bash' ]]; then
+#source ~/.bash_profile
+#fi
+
+#if [[ $defShell == 'zsh' ]]; then
+#source ~/.zshrc
+#fi
 
 echo ""
 echo "Installing TextyBeast on Remote Cluster:"
