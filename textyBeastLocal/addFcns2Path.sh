@@ -14,7 +14,7 @@ cd $startDir # return to startpoint..
 cd $BASEDIR #make sure we're in the base directory
 defShell=$(./checkDefaultShell.sh)
 userOS=$(./checkOS.sh)
-rcFile=$(getProfileScript.sh)
+rcFile=$(./getProfileScript.sh)
 cd $startDir # return to startpoint..
 
 # READ IN INPUTS FROM USER
