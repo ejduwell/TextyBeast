@@ -125,7 +125,7 @@ for env in ${envs[@]}; do
 	    pip install pytube
 	    pip install moviepy
 	    pip install pygame
-	    dirTmp=pwd
+	    dirTmp=$(pwd)
 	    cd $BASEDIR/envs/$env/env/
 	    git clone https://github.com/johncheetham/breakout.git
 	    git clone https://github.com/lukasz1985/PyBlocks.git
