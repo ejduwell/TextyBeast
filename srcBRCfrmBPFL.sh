@@ -80,11 +80,11 @@ if [ -r ~/.bash_profile ]; then
 
     # If the snippet is not present, append it
     if [ $? -ne 0 ]; then
-	echo "=============================================" >> ~/.bash_profile
+	echo "#=============================================" >> ~/.bash_profile
 	echo "# Added by TextyBeast to" >> ~/.bash_profile
 	echo "# ensure .bashrc is sourced" >> ~/.bash_profile
 	echo "source ~/.bashrc" >> ~/.bash_profile
-	echo "=============================================" >> ~/.bash_profile
+	echo "#=============================================" >> ~/.bash_profile
 	echo "Snippet: 'source ~/.bashrc' added to .bash_profile!"
 	echo ""
     else
@@ -104,11 +104,11 @@ else
     # make sure it is readable..
     chmod +r ~/.bash_profile
     # Add the commands
-    echo "=============================================" >> ~/.bash_profile
+    echo "#=============================================" >> ~/.bash_profile
     echo "# Added by TextyBeast to" >> ~/.bash_profile
     echo "# ensure .bashrc is sourced" >> ~/.bash_profile
     echo "source ~/.bashrc" >> ~/.bash_profile
-    echo "=============================================" >> ~/.bash_profile   
+    echo "#=============================================" >> ~/.bash_profile   
     echo "Snippet: 'source ~/.bashrc' added to .bash_profile!"
     echo ""
 fi
