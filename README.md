@@ -16,7 +16,7 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 
 ## Requirements/Dependencies:
 - Must be running a Linux operating system or MacOS
-- Must have an NVIDIA gpu
+- Must have an NVIDIA gpu (if you want processing time to be reasonably efficient)
 - Will function best on a Linux machine equipped with newer NVIDIA cards.
 - Will need 6-8 GB of GPU ram (preferably more)
 - Must have both python3.9 and python3.8 installed
