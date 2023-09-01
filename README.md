@@ -1,4 +1,8 @@
-![](https://github.com/ejduwell/TextyBeast/blob/main/textyBeastLogo.png)
+<p align="center">
+  <img src="https://github.com/ejduwell/TextyBeast/blob/main/textyBeastLogo.png" alt="TextyBeast Logo">
+  <br>
+  <b> --- README.md --- </b> 
+</p>
 
 # Overview:
 
