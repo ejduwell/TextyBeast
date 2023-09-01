@@ -115,7 +115,7 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 ## Usage:
 
 
-### Functions:
+### Command Line Functions:
 
 There are three seperate command-line functions for running jobs locally, on a remote slurm cluster, and on a remote machine respectively:
 
@@ -238,6 +238,17 @@ The general syntax and options for the three functions are identical. Each requi
 
         #########################################################################################################
         #########################################################################################################
+
+### TextyBeast GUI:
+
+TextyBeast also comes with simple GUI interface (built using tkinter) for interactively submitting jobs with the functions described above.
+
+To launch the GUI interface, simply open a terminal window and enter the command:
+
+```
+textyBeast_gui
+```
+
 
 ## Notes:
 
