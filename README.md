@@ -252,6 +252,20 @@ To launch the GUI interface, simply open a terminal window and enter the command
 textyBeast_gui
 ```
 
+A GUI window like the one below should open:
+
+<p align="center">
+  <br>
+  <b> TextyBeast GUI: Ready to run a job... </b> 
+  <br>
+  <img src="https://github.com/ejduwell/TextyBeast/blob/main/TexyBeastGuiPic.png" alt="TextyBeast-Gui-Ready"> 
+  <br>
+  <b> TextyBeast GUI: Running a job... </b>
+  <img src="https://github.com/ejduwell/TextyBeast/blob/main/TextyBeastGuiRunning.png" alt="TextyBeast-Gui-Running"> 
+  <br>
+</p>
+
+
 
 # Notes:
 
