@@ -26,7 +26,7 @@ This repository can be installed/setup to run jobs locally, remotely (including 
 - Must have both python3.9 and python3.8 installed
 - Must have jot installed
 - Must have ffmpeg installed
-- If installing on a Mac: You should know that running TextyBeast locally work but will default to much slower cpu-only models. The PyTorch versions used in this package cannot yet run gpu jobs on Apple's proprietary M1/M2 chips/gpus. Consequently, it will probably be more efficient to submit jobs to a remote system equipped with dedicated NVIDIA GPUs..
+- If installing on a Mac: You should know that running TextyBeast locally will work but will default to much slower cpu-only models. The PyTorch versions used in this package cannot yet run gpu jobs on Apple's proprietary M1/M2 chips/gpus. Consequently, it will probably be more efficient to submit jobs to a remote system equipped with dedicated NVIDIA GPUs..
 - Must have a huggingface account and request access to Pyannote's speaker-diarization model:
   
         - Create huggingface account at: https://huggingface.co
