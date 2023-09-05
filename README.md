@@ -401,10 +401,18 @@ A GUI window like the one below should open:
 
    - Install Python:
      Run the installer and follow the instructions to install Python 3.9
-     I also did this for Python3.8 too..
+
+     (I also did this for Python3.8 too..)
+     
      The versions I used were: Python 3.8.10 and Python 3.9.13
      
    - Finally, to ensure these were on my path, I added the following command to my ~/.bash_profile (feel free to use ~/.zshrc or whatever profile script you use):
+
      export PATH="/usr/local/bin:$PATH"
 
+   On Ubuntu/Linux, I initially had issues similar to those described on [this stack overflow post](https://stackoverflow.com/questions/66441291/tkinter-is-not-a-module-in-ubuntu-20-04). The solution was simple. I just had to run:
+
+    ```
+    sudo apt install python3-tk
+    ```
      
