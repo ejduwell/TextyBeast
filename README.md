@@ -388,3 +388,23 @@ A GUI window like the one below should open:
    # from https://www.python.org/ftp/python/
    #--------------------------------------
    ```
+4) tkinter/python issues:
+   
+   When initially developing the gui, I did have a few hicups getting tkinter to work on both macOS and Linux. I'm not sure if anyone else will experience these, but just in case, I've included these notes:
+
+   I decided to make the gui with tkinter first because it allowed me to create everything in python and second because it is supposed to work seamlessly across both macOS and Linux. That said, I did have a few minor stumbling blocks initially getting tkinter to function in both macOS and Linux. The following solutions worked for me:
+
+   On macOS, I found that my python installations from the deadsnakes repository did not play well with tkinter for some reason. My solution was to resort to the "official" installation methods on python.org's website using their installer gui:
+   
+   - Download Python from the Official Website:
+     Visit [Python Downloads for macOS](https://www.python.org/downloads/macos/) and download the installer for Python 3.9.
+
+   - Install Python:
+     Run the installer and follow the instructions to install Python 3.9
+     I also did this for Python3.8 too..
+     The versions I used were: Python 3.8.10 and Python 3.9.13
+     
+   - Finally, to ensure these were on my path, I added the following command to my ~/.bash_profile (feel free to use ~/.zshrc or whatever profile script you use):
+     export PATH="/usr/local/bin:$PATH"
+
+     
